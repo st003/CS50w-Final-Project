@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'purchasing.apps.PurchasingConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -99,6 +100,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# override the default user model
+AUTH_USER_MODEL = 'purchasing.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
