@@ -147,3 +147,18 @@ class Group(models.Model):
     def __repr__(self):
         """Representation method for class."""
         return f'Group(name={self.name})'
+
+
+class Product(models.Model):
+    """Class for storing product information."""
+    code = models.CharField(max_length=32, unique=True)
+    name = models.CharField(max_length=128)
+    cost = models.IntegerField(default=0)
+
+    def __str__(self):
+        """String method for class."""
+        return self.name
+    
+    def __repr__(self):
+        """Representation method for class."""
+        return f'Product(name={self.name}, code={self.code})'
