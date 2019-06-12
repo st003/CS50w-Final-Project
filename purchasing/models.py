@@ -1,11 +1,14 @@
 """
 Contains custom models for the purchasing app.
 
-Documentation for Django models found at
+Documentation for Django models found at 
+https://docs.djangoproject.com/en/2.2/topics/db/models/
 
 Documentation for customizing default Django User model found at
 https://docs.djangoproject.com/en/2.2/topics/auth/customizing/
 """
+
+from datetime import datetime
 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
@@ -162,3 +165,59 @@ class Product(models.Model):
     def __repr__(self):
         """Representation method for class."""
         return f'Product(name={self.name}, code={self.code})'
+
+
+class Transaction(models.Model):
+    """Class for storing a user's transaction data."""
+
+    # define type choices
+    CREDIT = 1
+    INVOICE = 2
+    TYPE_CHOICES = [
+        (CREDIT, 'Credit'),
+        (INVOICE, 'Invoice')
+    ]
+
+    # define status choices
+    UNPAID = 0
+    PENDING = 1
+    PAID = 2
+    DECLINED = 3
+    STATUS_CHOICES = [
+        (UNPAID, 'Unpaid'),
+        (PENDING, 'Pending'),
+        (PAID, 'Paid'),
+        (DECLINED, 'Declined')
+    ]
+    
+    # attributes
+    user = models.ForeignKey('User', on_delete=models.CASCADE, related_name='transactions')
+    type = models.IntegerField(null=True, default=None, choices=TYPE_CHOICES)
+    status = models.IntegerField(default=UNPAID, choices=STATUS_CHOICES)
+    date = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        """String method for class."""
+        return self.id
+    
+    def __repr__(self):
+        """Representation method for class."""
+        return f'Transaction(id={self.id}, user={self.user.id})'
+    
+    def set_pending(self):
+        """Set the status to pending."""
+        self.status = PENDING
+        self.date = datetime.now()
+        self.save()
+    
+    def set_paid(self):
+        """Set the status to paid."""
+        self.status = PAID
+        self.date = datetime.now()
+        self.save()
+    
+    def set_declined(self):
+        """Set the status to declined."""
+        self.status = DECLINED
+        self.date = datetime.now()
+        self.save()
