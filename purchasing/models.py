@@ -168,8 +168,23 @@ class Product(models.Model):
         return f'Product(name={self.name}, code={self.code})'
 
 
+class Coupon(models.Model):
+    """Stores data about coupons."""
+    code = models.CharField(max_length=16, unique=True)
+    discount = models.IntegerField(default=0)
+    active = models.BooleanField(default=True)
+
+    def __str__(self):
+        """String method for class."""
+        return self.code
+    
+    def __repr__(self):
+        """Representation method for class."""
+        return f'Coupon(id={self.code})'
+
+
 class Transaction(models.Model):
-    """Class for storing a user's transaction data."""
+    """Stores a user's transaction data."""
 
     # define type choices
     CREDIT = 1
@@ -191,10 +206,22 @@ class Transaction(models.Model):
         (DECLINED, 'Declined')
     ]
     
-    user = models.ForeignKey('User', on_delete=models.CASCADE, related_name='transactions')
+    user = models.ForeignKey(
+        'User',
+        on_delete=models.CASCADE,
+        related_name='transactions'
+    )
+    
     type = models.IntegerField(null=True, default=None, choices=TYPE_CHOICES)
     status = models.IntegerField(default=UNPAID, choices=STATUS_CHOICES)
     date = models.DateTimeField(null=True, blank=True)
+
+    coupon = models.ForeignKey(
+        'Coupon',
+        null=True,
+        blank=True,
+        on_delete=models.DO_NOTHING
+    )
 
     @property
     def grand_total(self):
