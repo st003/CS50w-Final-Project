@@ -90,6 +90,13 @@ class User(AbstractBaseUser):
     # properties to maintain compatibility with the Django admin.
     django_admin = models.BooleanField(default=False)
 
+    group = models.ForeignKey(
+        'Group',
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name='users'
+    )
+
     @property
     def is_staff(self):
         """Valiidates if user has permission to access the Django admin."""
@@ -126,3 +133,17 @@ class User(AbstractBaseUser):
     def has_module_perms(self, app_label):
         """Checks if the user has permission to view the app."""
         return True
+    
+
+# APP SPECIFIC MODELS
+class Group(models.Model):
+    """Class for grouping like users together."""
+    name = models.CharField(max_length=128, unique=True)
+
+    def __str__(self):
+        """String method for class."""
+        return self.name
+    
+    def __repr__(self):
+        """Representation method for class."""
+        return f'Group(name={self.name})'

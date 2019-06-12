@@ -9,9 +9,9 @@ from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group as auth_group
 
-from .models import User
+from .models import Group, User
 
 
 # custom forms for the Django admin due to the customized user model
@@ -86,6 +86,7 @@ class UserAdmin(BaseUserAdmin):
         ('Login Info', {'fields': ('email', 'password')}),
         ('Name Info', {'fields': ('first_name', 'middle_name', 'last_name', 'suffix_name')}),
         ('Address Info', {'fields': ('address_1', 'address_2', 'city', 'state', 'postal', 'country')}),
+        ('Group', {'fields': ('group',)}),
         ('Permission Info', {'fields': ('access_level', 'is_active', 'django_admin')})
     )
     
@@ -103,6 +104,7 @@ class UserAdmin(BaseUserAdmin):
 
 # register models to the admin
 admin.site.register(User, UserAdmin)
+admin.site.register(Group)
 
 # remove default models from the admin
-admin.site.unregister(Group)
+admin.site.unregister(auth_group)
