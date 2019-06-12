@@ -157,6 +157,7 @@ class Product(models.Model):
     code = models.CharField(max_length=32, unique=True)
     name = models.CharField(max_length=128)
     cost = models.IntegerField(default=0)
+    active = models.BooleanField(default=True)
 
     def __str__(self):
         """String method for class."""
@@ -190,11 +191,18 @@ class Transaction(models.Model):
         (DECLINED, 'Declined')
     ]
     
-    # attributes
     user = models.ForeignKey('User', on_delete=models.CASCADE, related_name='transactions')
     type = models.IntegerField(null=True, default=None, choices=TYPE_CHOICES)
     status = models.IntegerField(default=UNPAID, choices=STATUS_CHOICES)
     date = models.DateTimeField(null=True, blank=True)
+
+    @property
+    def grand_total(self):
+        """Returns the grand total for this transaction."""
+        grand_total = 0
+        for license in self.licenses.all():
+            grand_total += license.price_at_purchase
+        return grand_total
 
     def __str__(self):
         """String method for class."""
@@ -221,3 +229,38 @@ class Transaction(models.Model):
         self.status = DECLINED
         self.date = datetime.now()
         self.save()
+
+
+class License(models.Model):
+    """Stores licence data."""
+
+    transaction = models.ForeignKey(
+        'Transaction',
+        on_delete=models.CASCADE,
+        related_name='licenses'
+    )
+
+    product = models.ForeignKey(
+        'Product',
+        on_delete=models.DO_NOTHING,
+        related_name='licenses'
+    )
+
+    user = models.ForeignKey(
+        'User',
+        null=True,
+        blank=True,
+        on_delete=models.DO_NOTHING,
+        related_name='licenses'
+    )
+
+    price_at_purchase = models.IntegerField(default=0)
+    in_use = models.BooleanField(default=False)
+
+    def __str__(self):
+        """String method for class."""
+        return self.id
+    
+    def __repr__(self):
+        """Representation method for class."""
+        return f'License(id={self.id})'

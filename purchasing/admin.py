@@ -11,7 +11,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.models import Group as auth_group
 
-from .models import Group, Product, User, Transaction
+from .models import Group, License, Product, User, Transaction
 
 
 # custom forms for the Django admin due to the customized user model
@@ -104,6 +104,7 @@ class UserAdmin(BaseUserAdmin):
 
 # register models to the admin
 admin.site.register(Group)
+admin.site.register(License)
 admin.site.register(Product)
 admin.site.register(User, UserAdmin)
 admin.site.register(Transaction)
