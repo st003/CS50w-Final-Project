@@ -1,6 +1,6 @@
 """Purchasing app's views."""
 
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import Http404
 from django.shortcuts import redirect, render, reverse
 
@@ -40,4 +40,7 @@ def login_view(request):
         else:
             return redirect(reverse('login'))
 
- 
+
+def logout_view(request):
+    logout(request)
+    return redirect(reverse('login'))
