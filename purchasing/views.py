@@ -7,11 +7,13 @@ from django.shortcuts import redirect, render, reverse
 
 # index
 def index(request):
-    return render(request, 'purchasing/index.html')
+    """Index view. There's nothing here."""
+    return redirect(reverse('shop'))
 
 
 # login, logout, and registration views
 def login_view(request):
+    """Renders the login page an authenticates login attempts."""
 
     if request.method == 'GET':
 
@@ -42,5 +44,11 @@ def login_view(request):
 
 
 def logout_view(request):
+    """Logs out the current user."""
     logout(request)
     return redirect(reverse('login'))
+
+
+# shop views
+def shop(request):
+    return render(request, 'purchasing/shop.html')
