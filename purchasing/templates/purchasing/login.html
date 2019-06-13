@@ -1,0 +1,17 @@
+{% extends 'purchasing/base.html' %}
+
+{% block title %}
+    Login
+{% endblock %}
+
+{% block content %}
+    <h1>Login</h1>
+    <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        <fieldset>
+            <input name="email" type="email" placeholder="email" required>
+            <input name="password" type="password" placeholder="password" required>
+            <button type="submit">Log In</button>
+        </fieldset>
+    </form>
+{% endblock %}
