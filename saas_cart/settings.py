@@ -51,6 +51,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'saas_cart.urls'
+LOGIN_URL = '/login/'
 
 TEMPLATES = [
     {

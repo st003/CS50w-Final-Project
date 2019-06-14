@@ -17,7 +17,47 @@
 	
 	<body>
 
-		{% block content %}{% endblock %}
+		<!--only extend from this block for public facing pages-->
+		{% block public %}{% endblock %}
+
+		{% if user.is_authenticated %}
+			<header class="navbar navbar-expand">
+				<div class="nabar-brand">Merchant Logo</div>
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item">
+						<a class="nav-link">{{ user.get_full_name }}</a>
+					</li><!--nav-item-->
+					<li class="nav-item">
+						<a class="nav-link" href="{% url 'logout' %}">Logout</a>
+					</li><!--nav-item-->
+				</ul><!--navbar-nav-->
+			</header><!--navbar-->
+
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-12 col-md-3 col-xl-2">
+						<ul>
+							<li>
+								<a href="{% url 'shop' %}">Shop</a>
+							</li>
+							<li>
+								<a href="#">Users &amp; Licenses</a>
+							</li>
+							<li>
+								<a href="#">Purchase History</a>
+							</li>
+							<li>
+								<a href="#">Account Settings</a>
+							</li>			
+						</ul>
+					</div>
+					<main class="col-12 col-md-9 col-xl-10">
+						<!--only extend from this block for private facing pages-->
+						{% block content %}{% endblock %}
+					</main>
+				</div><!--row-->
+			</div><!--container-fluid-->
+		{% endif %}
 
 		<!-- Optional JavaScript -->
 		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
