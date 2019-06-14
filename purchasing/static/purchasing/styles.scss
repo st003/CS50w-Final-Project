@@ -1,0 +1,24 @@
+$primary_color: lightblue;
+
+$neutral_color: lightgray;
+
+/* HEADER AND NAV */
+
+.mainHeader {
+    height: 4em;
+    background-color: $primary_color;
+}
+
+.sideBar {
+    height: calc(100vh - 4em);
+    padding: 1em;
+    border-right: 1px solid $neutral_color;
+
+    a {
+        text-decoration: none;
+    }
+}
+
+.contentArea {
+    padding: 1em;
+}
