@@ -93,18 +93,18 @@ $dark_text: #404040;
 
 /* LOGIN */
 
-.loginPage {
+.publicSumbitPage {
     height: 100vh;
     background-color: $primary_color;
 }
 
-.loginForm {
+.publicSumbitForm {
     padding: 2em 2em 1em 2em;
     border-radius: 0.25em;
     background-color: $neutral_color;
 }
 
-.loginText {
+.publicSumbitText {
     color: $light_text;
 
     a {

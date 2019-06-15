@@ -72,6 +72,13 @@ class User(AbstractBaseUser):
         (ADMINISTRATOR, 'Administrator')
     ]
 
+    # access level default home pages when authenticated
+    DEFAULT_HOME = {
+        LICENCEE: 'logout',
+        PURCHASER: 'shop',
+        ADMINISTRATOR: 'products'
+    }
+
     # class attributes
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=64)
@@ -109,6 +116,10 @@ class User(AbstractBaseUser):
     def is_superuser(self):
         """User has all permissions in the Django admin."""
         return self.django_admin
+    
+    @property
+    def default_home(self):
+        return self.DEFAULT_HOME[self.access_level]
 
     # methods
     def __str__(self):
@@ -137,6 +148,16 @@ class User(AbstractBaseUser):
         """Checks if the user has permission to view the app."""
         return True
     
+    @classmethod
+    def is_email_taken(cls, email):
+        """Checks if a user with provided email already exists."""
+        try:
+            if cls.objects.get(email=cls.objects.normalize_email(email)):
+                return True
+
+        except cls.DoesNotExist:
+            return False
+
 
 # APP SPECIFIC MODELS
 class Group(models.Model):

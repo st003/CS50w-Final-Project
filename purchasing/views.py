@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import redirect, render, reverse
 
+from .models import User
 
 # PUBLIC VIEWS
 
@@ -20,7 +21,7 @@ def login_view(request):
     if request.method == 'GET':
 
         if request.user.is_authenticated:
-            return redirect(reverse('shop'))
+            return redirect(reverse(request.user.default_home))
         else:
             return render(request, 'purchasing/login.html')
     
@@ -28,22 +29,19 @@ def login_view(request):
 
         # required field validation
         if not request.POST.get('email'):
-            raise Http404('No email provided')
+            raise Http404('Email not provided')
         if not request.POST.get('password'):
-            raise Http404('No password provided')
+            raise Http404('Password not provided')
 
         user = authenticate(
             request,
-            username=request.POST['email'],
-            password=request.POST['password']
+            username=request.POST.get('email'),
+            password=request.POST.get('password')
         )
 
         if user is not None:
             login(request, user)
-            if user.access_level == user.PURCHASER:
-                return redirect(reverse('shop'))
-            elif user.access_level == user.ADMINISTRATOR:
-                return redirect(reverse('products'))
+            return redirect(reverse(user.default_home))
         else:
             return redirect(reverse('login'))
 
@@ -52,6 +50,60 @@ def logout_view(request):
     """Logs out the current user."""
     logout(request)
     return redirect(reverse('login'))
+
+
+def register(request):
+    """Loads the registration page and creates new users."""
+    
+    if request.method == 'GET':
+        
+        if request.user.is_authenticated:
+            return redirect(reverse(request.user.default_home))
+        else:
+            return render(request, 'purchasing/register.html')
+    
+    elif request.method == 'POST':
+
+        # required field validation
+        if not request.POST.get('email'):
+            raise Http404('Email not provided')
+        if not request.POST.get('password'):
+            raise Http404('Password not provided')
+        if not request.POST.get('confirmPassword'):
+            raise Http404('Confirm Password not provided')
+        if not request.POST.get('firstName'):
+            raise Http404('First Name not provided')
+        if not request.POST.get('lastName'):
+            raise Http404('Last Name not provided')
+        
+        # compare password inputs
+        if request.POST.get('password') != request.POST.get('confirmPassword'):
+            raise Http404('Passwords do not match')
+        
+        # check if user already exists
+        if User.is_email_taken(request.POST.get('email')):
+            raise Http404('Email is already taken')
+        
+        # create the user
+        User.objects.create_user(
+            email=request.POST.get('email'),
+            password=request.POST.get('password'),
+            first_name=request.POST.get('firstName'),
+            last_name=request.POST.get('lastName'),
+        )
+
+        # Authenticate and login the new user
+        user = authenticate(
+            request,
+            username=request.POST.get('email'),
+            password=request.POST.get('password')
+        )
+
+        if user is not None:
+            login(request, user)
+            return redirect(reverse(user.default_home))
+        else:
+            return redirect(reverse('register'))
 
 
 # AUTHENTICATED VIEWS

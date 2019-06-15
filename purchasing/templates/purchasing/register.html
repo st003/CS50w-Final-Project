@@ -6,7 +6,7 @@
 
 {% block public %}
 
-    <div class="container-fluid">
+    <div id="registerPage" class="container-fluid">
             
         <div class="row justify-content-center align-items-center publicSumbitPage">
             <div class="col-sm-12 col-md-5 col-lg-5 col-xl-4">
@@ -14,10 +14,10 @@
                 <section class="publicSumbitForm">
 
                     <div class="text-center mb-4">
-                        <h1>CS50w Final Project</h1>
+                        <h1>Register</h1>
                     </div>
 
-                    <form action="{% url 'login' %}" method="post">
+                    <form method="post">
                         <feildset>
                         {% csrf_token %}
 
@@ -30,7 +30,19 @@
                             </div><!--form-group-->
 
                             <div class="form-group">
-                                <button class="form-control btn secondaryBtn" type="submit">Log In</button>
+                                <input class="form-control" name="confirmPassword" placeholder="Confirm Password" type="password" required/>
+                            </div><!--form-group-->
+
+                            <div class="form-group">
+                                <input class="form-control" name="firstName" placeholder="First Name" required/>
+                            </div><!--form-group-->
+
+                            <div class="form-group">
+                                <input class="form-control" name="lastName" placeholder="Last Name" required/>
+                            </div><!--form-group-->
+
+                            <div class="form-group">
+                                <button class="form-control btn secondaryBtn" type="submit">Create Account</button>
                             </div><!--form-group-->
 
                         </feildset>
@@ -39,7 +51,7 @@
                 </section><!--loginForm-->
 
                 <div class="text-center mt-4 publicSumbitText">
-                    <a href="{% url 'register' %}">Create an Account</a>
+                    <a href="{% url 'login' %}">Cancel</a>
                 </div>
 
             </div><!--column-->
