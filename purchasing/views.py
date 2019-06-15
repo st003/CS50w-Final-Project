@@ -50,7 +50,24 @@ def logout_view(request):
     return redirect(reverse('login'))
 
 
-# Authenticated Views
+# AUTHENTICATED VIEWS
+
+# purchaser views
 @login_required
 def shop(request):
     return render(request, 'purchasing/shop.html')
+
+
+@login_required
+def user_license(request):
+    return render(request, 'purchasing/user_license.html')
+
+
+@login_required
+def purchase_history(request):
+    return render(request, 'purchasing/purchase_history.html')
+
+
+@login_required
+def account_settings(request):
+    return render(request, 'purchasing/account_settings.html')

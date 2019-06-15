@@ -22,44 +22,59 @@
 	
 	<body>
 
-		<!--only extend from this block for public facing pages-->
-		{% block public %}{% endblock %}
-
 		{% if user.is_authenticated %}
+
 			<header class="navbar navbar-expand mainHeader">
-				<div class="nabar-brand">Merchant Logo</div>
+				<div class="nabar-brand ml-3">Merchant Logo</div>
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item">
 						<a class="nav-link">{{ user.get_full_name }}</a>
 					</li><!--nav-item-->
-					<li class="nav-item">
-						<a class="nav-link" href="{% url 'logout' %}">Logout</a>
+					<li class="nav-item ml-2">
+						<a class="btn secondaryBtn" data-toggle="modal" data-backdrop="static" href="#logoutModal">Logout</a>
 					</li><!--nav-item-->
 				</ul><!--navbar-nav-->
 			</header><!--navbar-->
 
 			<div class="container-fluid">
 				<div class="row">
+
 					<div class="col-12 col-md-3 col-xl-2 sideBar">
-						<div>
-							<a href="{% url 'shop' %}">Shop</a>
-						</div>
-						<div>
-							<a href="#">Users &amp; Licenses</a>
-						</div>
-						<div>
-							<a href="#">Purchase History</a>
-						</div>
-						<div>
-							<a href="#">Account Settings</a>
-						</div>			
+						<a class="sideBarLink" href="{% url 'shop' %}">Shop</a>
+						<a class="sideBarLink" href="{% url 'user_license' %}">Users &amp; Licenses</a>
+						<a class="sideBarLink" href="{% url 'purchase_history' %}">Purchase History</a>
+						<a class="sideBarLink" href="{% url 'account_settings' %}">Account Settings</a>			
 					</div><!--sideBar-->
+
 					<main class="col-12 col-md-9 col-xl-10 contentArea">
+
 						<!--only extend from this block for private facing pages-->
 						{% block content %}{% endblock %}
+
 					</main><!--contentArea-->
 				</div><!--row-->
 			</div><!--container-fluid-->
+
+			<!--logout modal-->
+			<div id="logoutModal" class="modal fade">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-body">
+							Are you sure you want to logout?
+						</div><!--modal-body-->
+						<div class="modal-footer">
+							<a class="btn neutralBtn" href="{% url 'logout' %}">Yes</a>
+							<button class="btn neutralBtn" type="button" data-dismiss="modal">No</button>
+						</div><!--modal-footer-->
+					</div><!--modal-content-->
+				</div><!--modal-dialog-->
+			</div><!--modal fade-->
+
+		{% else %}
+
+			<!--only extend from this block for public facing pages-->
+			{% block public %}{% endblock %}
+
 		{% endif %}
 
 		<!-- Optional JavaScript -->

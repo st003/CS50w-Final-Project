@@ -1,24 +1,85 @@
-$primary_color: lightblue;
+$primary_color: #222222;
 
-$neutral_color: lightgray;
+$secondary_color: #008000;
+$secondary_color_hover: #009900;
+$secondary_color_active: #006600;
+
+$neutral_color: #f2f2f2;
+$neutral_color_hover: #d9d9d9;
+$neutral_color_active: #bfbfbf;
+
+$light_text: white;
+$neutral_text: #404040;
+
+
+/* BUTTONS */
+
+.secondaryBtn {
+    background-color: $secondary_color;
+    color: white;
+}
+
+.secondaryBtn:hover {
+    background-color: $secondary_color_hover;
+    color: white;
+}
+
+.secondaryBtn:active {
+    background-color: $secondary_color_active;
+    color: white;
+}
+
+.neutralBtn {
+    background-color: $neutral_color;
+    color: $neutral_text;
+}
+
+.neutralBtn:hover {
+    background-color: $neutral_color_hover;
+    color: $neutral_text;
+}
+
+.neutralBtn:active {
+    background-color: $neutral_color_active;
+    color: $neutral_text;
+}
 
 /* HEADER AND NAV */
 
 .mainHeader {
     height: 4em;
     background-color: $primary_color;
+    color: $light_text;
 }
 
 .sideBar {
     height: calc(100vh - 4em);
-    padding: 1em;
-    border-right: 1px solid $neutral_color;
+    padding: 2em 1em 1em 1em;
+    background-color: $neutral_color;
+}
 
-    a {
-        text-decoration: none;
+@media (max-width: 768px) {
+    .sideBar {
+        height: auto;
     }
 }
 
-.contentArea {
+.sideBarLink {
+    display: block;
     padding: 1em;
+    color: $neutral_text;
+    text-decoration: none;
+}
+
+.sideBarLink:hover {
+    background-color: $neutral_color_hover;
+    color: $neutral_text;
+    text-decoration: none;
+}
+
+
+/* CONTENT AREA */
+
+.contentArea {
+    padding: 2em;
 }
