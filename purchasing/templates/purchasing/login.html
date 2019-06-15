@@ -5,13 +5,54 @@
 {% endblock %}
 
 {% block public %}
-    <h1>Login</h1>
-    <form action="{% url 'login' %}" method="post">
-        {% csrf_token %}
-        <fieldset>
-            <input name="email" type="email" placeholder="email" required>
-            <input name="password" type="password" placeholder="password" required>
-            <button type="submit">Log In</button>
-        </fieldset>
-    </form>
+
+    <div class="container-fluid">
+            
+        <div class="row justify-content-center align-items-center loginPage">
+            <div class="col-sm-12 col-md-5 col-lg-5 col-xl-4">
+
+                <section class="loginForm">
+
+                    <div class="text-center mb-4">
+                        <h1>CS50w Final Project</h1>
+                    </div>
+
+                    <form action="{% url 'login' %}" method="post">
+                        <feildset>
+                        {% csrf_token %}
+
+                            <div class="form-group">
+                                <input class="form-control" name="email" placeholder="Email" type="email" required/>
+                            </div><!--form-group-->
+
+                            <div class="form-group">
+                                <input class="form-control" name="password" placeholder="Password" type="password" required/>
+                            </div><!--form-group-->
+
+                            <div class="form-group">
+                                <button class="form-control btn secondaryBtn" type="submit">Log In</button>
+                            </div><!--form-group-->
+
+                        </feildset>
+                    </form>
+
+                </section><!--loginForm-->
+
+                <div class="text-center mt-4 loginText">
+                    <a href="#">Create an Account</a>
+                </div>
+
+            </div><!--column-->
+        </div><!--row-->
+
+        <footer class="fixed-bottom text-center loginText">
+            <p>
+                Copyright &copy;
+                <script>document.write(new Date().getFullYear())</script>
+                st003
+            </p><!--copyright-->
+        </footer><!--fixed-bottom-->
+
+    </div><!--container-fluid-->
+
 {% endblock %}

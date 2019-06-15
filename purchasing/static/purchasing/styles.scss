@@ -87,3 +87,31 @@ $dark_text: #404040;
 .contentArea {
     padding: 2em;
 }
+
+
+/* PAGE SPECIFIC STYLES */
+
+/* LOGIN */
+
+.loginPage {
+    height: 100vh;
+    background-color: $primary_color;
+}
+
+.loginForm {
+    padding: 2em 2em 1em 2em;
+    border-radius: 0.25em;
+    background-color: $neutral_color;
+}
+
+.loginText {
+    color: $light_text;
+
+    a {
+        color: $light_text;
+    }
+
+    a:hover {
+        color: $light_text;
+    }
+}
