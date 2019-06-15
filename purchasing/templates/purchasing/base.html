@@ -40,10 +40,19 @@
 				<div class="row">
 
 					<nav class="col-12 col-md-3 col-xl-2 sideBar">
-						<a class="sideBarLink" data-nav="shop" href="{% url 'shop' %}">Shop</a>
-						<a class="sideBarLink" data-nav="usersLicenses" href="{% url 'user_license' %}">Users &amp; Licenses</a>
-						<a class="sideBarLink" data-nav="purchaseHistory" href="{% url 'purchase_history' %}">Purchase History</a>
-						<a class="sideBarLink" data-nav="accountSettings" href="{% url 'account_settings' %}">Account Settings</a>			
+
+						{% if user.access_level == user.PURCHASER %}
+							<a class="sideBarLink" data-nav="shop" href="{% url 'shop' %}">Shop</a>
+							<a class="sideBarLink" data-nav="usersLicenses" href="{% url 'user_license' %}">Users &amp; Licenses</a>
+							<a class="sideBarLink" data-nav="purchaseHistory" href="{% url 'purchase_history' %}">Purchase History</a>
+							<a class="sideBarLink" data-nav="accountSettings" href="{% url 'account_settings' %}">Account Settings</a>
+						{% elif user.access_level == user.ADMINISTRATOR %}
+							<a class="sideBarLink" data-nav="products" href="{% url 'products' %}">Products</a>
+							<a class="sideBarLink" data-nav="coupons" href="{% url 'coupons' %}">Coupons</a>
+							<a class="sideBarLink" data-nav="userGroup" href="{% url 'user_group' %}">Users &amp; Groups</a>
+							<a class="sideBarLink" data-nav="reports" href="{% url 'reports' %}">Reports</a>
+						{% endif %}
+
 					</nav><!--sideBar-->
 
 					<main class="col-12 col-md-9 col-xl-10 contentArea">

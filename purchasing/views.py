@@ -6,7 +6,8 @@ from django.http import Http404
 from django.shortcuts import redirect, render, reverse
 
 
-# index
+# PUBLIC VIEWS
+
 def index(request):
     """Index view. There's nothing here."""
     return render(request, 'purchasing/index.html')
@@ -39,7 +40,10 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            return redirect(reverse('shop'))
+            if user.access_level == user.PURCHASER:
+                return redirect(reverse('shop'))
+            elif user.access_level == user.ADMINISTRATOR:
+                return redirect(reverse('products'))
         else:
             return redirect(reverse('login'))
 
@@ -52,7 +56,7 @@ def logout_view(request):
 
 # AUTHENTICATED VIEWS
 
-# purchaser views
+# PURCHASER views
 @login_required
 def shop(request):
     return render(request, 'purchasing/shop.html')
@@ -71,3 +75,24 @@ def purchase_history(request):
 @login_required
 def account_settings(request):
     return render(request, 'purchasing/account_settings.html')
+
+
+# ADMINISTRATOR views
+@login_required
+def products(request):
+    return render(request, 'purchasing/products.html')
+
+
+@login_required
+def coupons(request):
+    return render(request, 'purchasing/coupons.html')
+
+
+@login_required
+def user_group(request):
+    return render(request, 'purchasing/user_group.html')
+
+
+@login_required
+def reports(request):
+    return render(request, 'purchasing/reports.html')
