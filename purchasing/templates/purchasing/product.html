@@ -1,0 +1,80 @@
+{% extends 'purchasing/base.html' %}
+
+{% block title %}
+    Product
+{% endblock %}
+
+{% block content %}
+    <section class="page" data-page="product">
+        
+        {% if product %}
+
+            <h1>{{ product.name }}</h1>
+
+            <section class="contentSection">
+                <form action="{% url 'product' %}" method="post">
+                    <fieldset>
+                        {% csrf_token %}
+                        <input name="id" type="hidden" value="{{ product.pk }}">
+                        
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input class="form-control" name="name" value="{{ product.name }}" maxlength="128" required/>
+                        </div><!--form-group-->
+
+                        <div class="form-group">
+                            <label>Code</label>
+                            <input class="form-control" name="code" value="{{ product.code }}" maxlength="32" required/>
+                        </div><!--form-group-->
+
+                        <div class="form-group">
+                            <label>Price (in cents)</label>
+                            <input class="form-control" name="cost" type="number" value="{{ product.cost }}" min="0" required/>
+                        </div><!--form-group-->
+
+                        <div class="form-group text-right mt-4">
+                            <button class="btn secondaryBtn" type="submit">Save</button>
+                            <a class="btn neutralBtn" href="{% url 'products' %}">Cancel</a>
+                        </div><!--form-group-->
+
+                    </fieldset>
+                </form>
+            </section><!--contentSection-->
+
+        {% else %}
+
+            <h1>Add Product</h1>
+
+            <section class="contentSection">
+                <form action="{% url 'product' %}" method="post">
+                    <fieldset>
+                        {% csrf_token %}
+                        
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input class="form-control" name="name" maxlength="128" required/>
+                        </div><!--form-group-->
+
+                        <div class="form-group">
+                            <label>Code</label>
+                            <input class="form-control" name="code" maxlength="32" required/>
+                        </div><!--form-group-->
+
+                        <div class="form-group">
+                            <label>Price (in cents)</label>
+                            <input class="form-control" name="cost" type="number" min="0" required/>
+                        </div><!--form-group-->
+
+                        <div class="form-group text-right mt-4">
+                            <button class="btn secondaryBtn" type="submit">Save</button>
+                            <a class="btn neutralBtn" href="{% url 'products' %}">Cancel</a>
+                        </div><!--form-group-->
+
+                    </fieldset>
+                </form>
+            </section><!--contentSection-->
+
+        {% endif %}
+
+    </section>
+{% endblock %}

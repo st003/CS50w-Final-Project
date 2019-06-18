@@ -3,7 +3,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
-from django.shortcuts import redirect, render, reverse
+from django.shortcuts import get_object_or_404, redirect, render, reverse
 
 from .models import Product, User
 
@@ -135,6 +135,61 @@ def products(request):
     """Displays the products page."""
     products = Product.objects.all()
     return render(request, 'purchasing/products.html', {'products': products})
+
+
+@login_required
+def product(request, product_id=None):
+    """Adds or Edits a product."""
+
+    if request.method == 'GET':
+
+        if product_id:
+            product = get_object_or_404(Product, pk=product_id)
+            return render(request, 'purchasing/product.html', {'product': product})
+        else:
+            return render(request, 'purchasing/product.html')
+    
+    elif request.method == 'POST':
+
+        # existing product
+        if request.POST.get('id'):
+            
+            # required field validation
+            if not request.POST.get('name'):
+                raise Http404('Name not provided')
+            if not request.POST.get('code'):
+                raise Http404('Code not provided')
+            if not request.POST.get('cost'):
+                raise Http404('Cost not provided')
+            
+            existing_product = Product.objects.get(pk=request.POST['id'])
+            existing_product.code = request.POST['code']
+            existing_product.name = request.POST['name']
+            existing_product.cost = int(request.POST['cost'])
+            existing_product.save()
+
+            return redirect(reverse('product', kwargs={'product_id': existing_product.pk}))
+            
+        # new product
+        else:
+            
+            # required field validation
+            if not request.POST.get('name'):
+                raise Http404('Name not provided')
+            if not request.POST.get('code'):
+                raise Http404('Code not provided')
+            if not request.POST.get('cost'):
+                raise Http404('Cost not provided')
+            
+            new_product = Product(
+                code=request.POST.get('code'),
+                name=request.POST.get('name'),
+                cost=int(request.POST.get('cost'))
+            )
+
+            new_product.save()
+
+            return redirect(reverse('product', kwargs={'product_id': new_product.pk}))
 
 
 @login_required
