@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/2.2/topics/auth/customizing/
 """
 
 from datetime import datetime
+from decimal import Decimal
 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
@@ -179,6 +180,12 @@ class Product(models.Model):
     name = models.CharField(max_length=128)
     cost = models.IntegerField(default=0)
     active = models.BooleanField(default=True)
+
+    @property
+    def dollar_cost(self):
+        """Returns the cost in dollars."""
+        dollar_cost = round(Decimal((self.cost / 100)), 2)
+        return f'${dollar_cost}'
 
     def __str__(self):
         """String method for class."""

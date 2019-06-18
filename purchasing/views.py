@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import redirect, render, reverse
 
-from .models import User
+from .models import Product, User
 
 # PUBLIC VIEWS
 
@@ -132,7 +132,9 @@ def account_settings(request):
 # ADMINISTRATOR views
 @login_required
 def products(request):
-    return render(request, 'purchasing/products.html')
+    """Displays the products page."""
+    products = Product.objects.all()
+    return render(request, 'purchasing/products.html', {'products': products})
 
 
 @login_required
