@@ -56,14 +56,32 @@ $dark_text: #404040;
     color: $light_text;
 }
 
+nav {
+    background-color: $neutral_background_color;
+}
+
+.collapseToggler {
+    padding: 1em;
+    
+    a {
+        display: block;
+        color: $dark_text;
+    }
+
+    a:hover {
+        color: $dark_text;
+        text-decoration: none;
+    }
+}
+
 .sideBar {
     height: calc(100vh - 4em);
-    padding: 2em 1em 1em 1em;
-    background-color: $neutral_background_color;
+    padding-top: 2em;
 }
 
 @media (max-width: 768px) {
     .sideBar {
+        padding-top: 0;
         height: auto;
     }
 }
@@ -98,6 +116,12 @@ $dark_text: #404040;
 
 .contentArea {
     padding: 2em;
+}
+
+@media (max-width: 768px) {
+    .contentArea {
+        padding: 1em;
+    }
 }
 
 .contentSection {

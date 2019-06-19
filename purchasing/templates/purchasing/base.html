@@ -39,21 +39,26 @@
 			<div class="container-fluid">
 				<div class="row">
 
-					<nav class="col-12 col-md-3 col-xl-2 sideBar">
-
-						{% if user.access_level == user.PURCHASER %}
-							<a class="sideBarLink" data-nav="shop" href="{% url 'shop' %}">Shop</a>
-							<a class="sideBarLink" data-nav="usersLicenses" href="{% url 'user_license' %}">Users &amp; Licenses</a>
-							<a class="sideBarLink" data-nav="purchaseHistory" href="{% url 'purchase_history' %}">Purchase History</a>
-							<a class="sideBarLink" data-nav="accountSettings" href="{% url 'account_settings' %}">Account Settings</a>
-						{% elif user.access_level == user.ADMINISTRATOR %}
-							<a class="sideBarLink" data-nav="products" href="{% url 'products' %}">Products</a>
-							<a class="sideBarLink" data-nav="coupons" href="{% url 'coupons' %}">Coupons</a>
-							<a class="sideBarLink" data-nav="userGroup" href="{% url 'user_group' %}">Users &amp; Groups</a>
-							<a class="sideBarLink" data-nav="reports" href="{% url 'reports' %}">Reports</a>
-						{% endif %}
-
-					</nav><!--sideBar-->
+						<nav class="col-12 col-md-3 col-xl-2 p-0">
+							<div class="d-md-none collapseToggler">
+								<a data-toggle="collapse" href="#navCollapse">&#9776; Menu</a>
+							</div>
+							<div id="navCollapse" class="collapse show">
+								<div class="sideBar">
+									{% if user.access_level == user.PURCHASER %}
+										<a class="sideBarLink" data-nav="shop" href="{% url 'shop' %}">Shop</a>
+										<a class="sideBarLink" data-nav="usersLicenses" href="{% url 'user_license' %}">Users &amp; Licenses</a>
+										<a class="sideBarLink" data-nav="purchaseHistory" href="{% url 'purchase_history' %}">Purchase History</a>
+										<a class="sideBarLink" data-nav="accountSettings" href="{% url 'account_settings' %}">Account Settings</a>
+									{% elif user.access_level == user.ADMINISTRATOR %}
+										<a class="sideBarLink" data-nav="products" href="{% url 'products' %}">Products</a>
+										<a class="sideBarLink" data-nav="coupons" href="{% url 'coupons' %}">Coupons</a>
+										<a class="sideBarLink" data-nav="userGroup" href="{% url 'user_group' %}">Users &amp; Groups</a>
+										<a class="sideBarLink" data-nav="reports" href="{% url 'reports' %}">Reports</a>
+									{% endif %}
+								</div><!--sideBar-->
+							</div>
+						</nav><!--col-12 col-md-3 col-xl-2 p-0-->
 
 					<main class="col-12 col-md-9 col-xl-10 contentArea">
 
