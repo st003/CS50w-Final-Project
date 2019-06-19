@@ -1,11 +1,11 @@
 {% extends 'purchasing/base.html' %}
 
 {% block title %}
-    Product
+    Coupon
 {% endblock %}
 
 {% block content %}
-    <section class="page" data-page="products">
+    <section class="page" data-page="coupons">
 
         {% if messages %}
             {% for message in messages %}
@@ -13,34 +13,30 @@
             {% endfor %}
         {% endif %}
         
-        {% if product %}
+        {% if coupon %}
+        <!--Existing coupon-->
 
-            <h1>{{ product.name }}</h1>
+            <h1>{{ coupon.code }}</h1>
 
             <section class="contentSection">
-                <form action="{% url 'product' %}" method="post">
+                <form action="{% url 'coupon' %}" method="post">
                     <fieldset>
                         {% csrf_token %}
-                        <input name="id" type="hidden" value="{{ product.pk }}">
-                        
-                        <div class="form-group">
-                            <label>Name</label>
-                            <input class="form-control" name="name" value="{{ product.name }}" maxlength="128" required/>
-                        </div><!--form-group-->
+                        <input name="id" type="hidden" value="{{ coupon.pk }}">
 
                         <div class="form-group">
                             <label>Code</label>
-                            <input class="form-control" name="code" value="{{ product.code }}" maxlength="32" required/>
+                            <input class="form-control" name="code" value="{{ coupon.code }}" maxlength="16" required/>
                         </div><!--form-group-->
 
                         <div class="form-group">
-                            <label>Price (in cents)</label>
-                            <input class="form-control" name="cost" type="number" value="{{ product.cost }}" min="0" required/>
+                            <label>Discount (in cents)</label>
+                            <input class="form-control" name="discount" type="number" value="{{ coupon.discount }}" min="0" required/>
                         </div><!--form-group-->
 
                         <div class="form-group text-right mt-4">
                             <button class="btn secondaryBtn" type="submit">Save</button>
-                            <a class="btn neutralBtn" href="{% url 'products' %}">Cancel</a>
+                            <a class="btn neutralBtn" href="{% url 'coupons' %}">Cancel</a>
                         </div><!--form-group-->
 
                     </fieldset>
@@ -48,32 +44,28 @@
             </section><!--contentSection-->
 
         {% else %}
+        <!--New coupon-->
 
-            <h1>Add Product</h1>
+            <h1>Add Coupon</h1>
 
             <section class="contentSection">
-                <form action="{% url 'product' %}" method="post">
+                <form action="{% url 'coupon' %}" method="post">
                     <fieldset>
                         {% csrf_token %}
-                        
-                        <div class="form-group">
-                            <label>Name</label>
-                            <input class="form-control" name="name" maxlength="128" required/>
-                        </div><!--form-group-->
 
                         <div class="form-group">
                             <label>Code</label>
-                            <input class="form-control" name="code" maxlength="32" required/>
+                            <input class="form-control" name="code" maxlength="16" required/>
                         </div><!--form-group-->
 
                         <div class="form-group">
-                            <label>Price (in cents)</label>
-                            <input class="form-control" name="cost" type="number" min="0" required/>
+                            <label>Discount (in cents)</label>
+                            <input class="form-control" name="discount" type="number" min="0" required/>
                         </div><!--form-group-->
 
                         <div class="form-group text-right mt-4">
                             <button class="btn secondaryBtn" type="submit">Save</button>
-                            <a class="btn neutralBtn" href="{% url 'products' %}">Cancel</a>
+                            <a class="btn neutralBtn" href="{% url 'coupons' %}">Cancel</a>
                         </div><!--form-group-->
 
                     </fieldset>

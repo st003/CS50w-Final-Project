@@ -6,6 +6,36 @@
 
 {% block content %}
     <section class="page" data-page="coupons">
-        <h1>Coupons</h1>
-    </section>
+
+        <div class="row">
+            <div class="col">
+                <h1>Coupons</h1>
+            </div><!--col-->
+            <div class="col text-right">
+                <a class="btn secondaryBtn" href="{% url 'coupon' %}">New Coupon</a>
+            </div><!--col-->
+        </div><!--row-->
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Discount</th>
+                    <th>Active</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for coupon in coupons %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'coupon' coupon_id=coupon.pk %}">{{ coupon.code }}</a>
+                        </td>
+                        <td>{{ coupon.discount_dollar_cost }}</td>
+                        <td>{{ coupon.active }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table><!--table-->
+
+    </section><!--page-->
 {% endblock %}

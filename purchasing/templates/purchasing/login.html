@@ -11,6 +11,12 @@
         <div class="row justify-content-center align-items-center publicSumbitPage">
             <div class="col-sm-12 col-md-5 col-lg-5 col-xl-4">
 
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert {{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+
                 <section class="publicSumbitForm">
 
                     <div class="text-center mb-4">
@@ -36,11 +42,11 @@
                         </feildset>
                     </form>
 
-                </section><!--loginForm-->
+                </section><!--publicSumbitForm-->
 
                 <div class="text-center mt-4 publicSumbitText">
                     <a href="{% url 'register' %}">Create an Account</a>
-                </div>
+                </div><!--publicSumbitText-->
 
             </div><!--column-->
         </div><!--row-->
@@ -50,8 +56,8 @@
                 Copyright &copy;
                 <script>document.write(new Date().getFullYear())</script>
                 st003
-            </p><!--copyright-->
-        </footer><!--fixed-bottom-->
+            </p>
+        </footer><!--publicSumbitText-->
 
     </div><!--container-fluid-->
 

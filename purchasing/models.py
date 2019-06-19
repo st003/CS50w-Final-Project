@@ -202,6 +202,12 @@ class Coupon(models.Model):
     discount = models.IntegerField(default=0)
     active = models.BooleanField(default=True)
 
+    @property
+    def discount_dollar_cost(self):
+        """Returns the discount in dollars."""
+        dollars = round(Decimal((self.discount / 100)), 2)
+        return f'${dollars}'
+
     def __str__(self):
         """String method for class."""
         return self.code

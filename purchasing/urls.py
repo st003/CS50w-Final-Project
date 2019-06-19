@@ -8,6 +8,8 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('account_settings/', views.account_settings, name='account_settings'),
+    path('coupon/', views.coupon, name='coupon'),
+    path('coupon/<int:coupon_id>', views.coupon, name='coupon'),
     path('coupons/', views.coupons, name='coupons'),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),

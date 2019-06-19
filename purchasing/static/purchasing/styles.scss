@@ -4,9 +4,13 @@ $secondary_color: #008000;
 $secondary_color_hover: #009900;
 $secondary_color_active: #006600;
 
-$neutral_color: #f2f2f2;
-$neutral_color_hover: #bfbfbf;
-$neutral_color_active: #d9d9d9;
+$neutral_color: #d9d9d9;
+$neutral_color_hover: #c8c8c8;
+$neutral_color_active: #b0b0b0;
+
+$neutral_background_color: #f2f2f2;
+$neutral_background_color_hover: #bfbfbf;
+$neutral_background_color_active: #d9d9d9;
 
 $light_text: white;
 $dark_text: #404040;
@@ -55,7 +59,7 @@ $dark_text: #404040;
 .sideBar {
     height: calc(100vh - 4em);
     padding: 2em 1em 1em 1em;
-    background-color: $neutral_color;
+    background-color: $neutral_background_color;
 }
 
 @media (max-width: 768px) {
@@ -72,17 +76,25 @@ $dark_text: #404040;
 }
 
 .sideBarLink:hover {
-    background-color: $neutral_color_hover;
+    background-color: $neutral_background_color_hover;
     color: $dark_text;
     text-decoration: none;
 }
 
 .sideBarLinkActive {
-    background-color: $neutral_color_active;
+    background-color: $neutral_background_color_active;
 }
 
 
 /* CONTENT AREA */
+
+.page {
+
+    h1 {
+        margin-bottom: 0.5em;
+    }
+
+}
 
 .contentArea {
     padding: 2em;
@@ -90,7 +102,7 @@ $dark_text: #404040;
 
 .contentSection {
     padding: 2em 2em 1em 2em;
-    background-color: $neutral_color;
+    background-color: $neutral_background_color;
 }
 
 
@@ -106,7 +118,7 @@ $dark_text: #404040;
 .publicSumbitForm {
     padding: 2em 2em 1em 2em;
     border-radius: 0.25em;
-    background-color: $neutral_color;
+    background-color: $neutral_background_color;
 }
 
 .publicSumbitText {
