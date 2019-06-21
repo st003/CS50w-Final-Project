@@ -21,5 +21,5 @@ urlpatterns = [
     path('reports/', views.reports, name='reports'),
     path('shop/', views.shop, name='shop'),
     path('user_license/', views.user_license, name='user_license'),
-    path('user_group/', views.user_group, name='user_group')
+    path('users/', views.users, name='users')
 ]

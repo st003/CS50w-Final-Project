@@ -1,0 +1,41 @@
+{% extends 'purchasing/base.html' %}
+
+{% block title %}
+    Users
+{% endblock %}
+
+{% block content %}
+    <section class="page" data-page="users">
+
+        <div class="row">
+            <div class="col">
+                <h1>Users</h1>
+            </div><!--col-->
+            <div class="col text-right">
+                <a class="btn secondaryBtn" href="#">New User</a>
+            </div><!--col-->
+        </div><!--row-->
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Group</th>
+                    <th>Access Level</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>
+                            <a href="#">{{ user.get_full_name }}</a>
+                        </td>
+                        <td>{{ user.group }}</td>
+                        <td>{{ user.access_level_name }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table><!--table-->
+
+    </section><!--page-->
+{% endblock %}

@@ -110,7 +110,7 @@ class User(AbstractBaseUser):
 
     @property
     def is_staff(self):
-        """Valiidates if user has permission to access the Django admin."""
+        """Validates if user has permission to access the Django admin."""
         return self.django_admin
     
     @property
@@ -121,6 +121,13 @@ class User(AbstractBaseUser):
     @property
     def default_home(self):
         return self.DEFAULT_HOME[self.access_level]
+
+    @property
+    def access_level_name(self):
+        """Returns access level by descriptive name."""
+        for value, name in self.ACCESS_LEVEL_CHOICES:
+            if self.access_level == value:
+                return name
 
     # methods
     def __str__(self):

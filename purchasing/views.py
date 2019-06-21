@@ -294,8 +294,10 @@ def coupon(request, coupon_id=None):
         
 
 @login_required
-def user_group(request):
-    return render(request, 'purchasing/user_group.html')
+def users(request):
+    """Displays a list of users."""
+    users = User.objects.all()
+    return render(request, 'purchasing/users.html', {'users': users})
 
 
 @login_required
