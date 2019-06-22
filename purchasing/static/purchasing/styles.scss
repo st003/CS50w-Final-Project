@@ -1,16 +1,14 @@
 $primary_color: #222222;
+$primary_color_hover: #404040;
+$primary_color_active: #808080;
 
 $secondary_color: #008000;
 $secondary_color_hover: #009900;
 $secondary_color_active: #006600;
 
-$neutral_color: #d9d9d9;
-$neutral_color_hover: #c8c8c8;
-$neutral_color_active: #b0b0b0;
-
-$neutral_background_color: #f2f2f2;
-$neutral_background_color_hover: #bfbfbf;
-$neutral_background_color_active: #d9d9d9;
+$neutral_color: #f2f2f2;
+$neutral_color_hover: #d9d9d9;
+$neutral_color_active: #bfbfbf;
 
 $light_text: white;
 $dark_text: #404040;
@@ -57,8 +55,37 @@ $dark_text: #404040;
     color: $light_text;
 }
 
+// these are modifications to a Bootstrap classes
+.nav-link:hover {
+    cursor: pointer;
+    background-color: $primary_color_hover;
+}
+
+.nav-link:active {
+    background-color: $primary_color_active;
+}
+
+.dropdown-menu {
+    background-color: $neutral_color;
+}
+
+.dropdown-item {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.dropdown-item:hover {
+    background-color: $neutral_color_hover;
+}
+
+.dropdown-item:active {
+    background-color: $neutral_color_active;
+    color: $dark_text;
+}
+// end Bootstrap modifications
+
 nav {
-    background-color: $neutral_background_color;
+    background-color: $neutral_color;
 }
 
 .collapseToggler {
@@ -95,13 +122,13 @@ nav {
 }
 
 .sideBarLink:hover {
-    background-color: $neutral_background_color_hover;
+    background-color: $neutral_color_hover;
     color: $dark_text;
     text-decoration: none;
 }
 
 .sideBarLinkActive {
-    background-color: $neutral_background_color_active;
+    background-color: $neutral_color_active;
 }
 
 
@@ -129,7 +156,7 @@ nav {
 
 .contentSection {
     padding: 1em;
-    background-color: $neutral_background_color;
+    background-color: $neutral_color;
 }
 
 
@@ -145,7 +172,7 @@ nav {
 .publicSumbitForm {
     padding: 2em 2em 1em 2em;
     border-radius: 0.25em;
-    background-color: $neutral_background_color;
+    background-color: $neutral_color;
 }
 
 .publicSumbitText {

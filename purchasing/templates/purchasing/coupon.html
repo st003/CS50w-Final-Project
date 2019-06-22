@@ -18,11 +18,12 @@
 
             <h1>{{ coupon.code }}</h1>
 
-            <section class="contentSection">
-                <form action="{% url 'coupon' %}" method="post">
-                    <fieldset>
-                        {% csrf_token %}
-                        <input name="id" type="hidden" value="{{ coupon.pk }}">
+            <form action="{% url 'coupon' %}" method="post">
+                <fieldset>
+                    {% csrf_token %}
+                    <input name="id" type="hidden" value="{{ coupon.pk }}">
+
+                    <section class="contentSection">
 
                         <div class="form-group">
                             <label>Code</label>
@@ -34,24 +35,26 @@
                             <input class="form-control" name="discount" type="number" value="{{ coupon.discount }}" min="0" required/>
                         </div><!--form-group-->
 
-                        <div class="form-group text-right mt-4">
-                            <button class="btn secondaryBtn" type="submit">Save</button>
-                            <a class="btn neutralBtn" href="{% url 'coupons' %}">Cancel</a>
-                        </div><!--form-group-->
+                    </section><!--contentSection-->
 
-                    </fieldset>
-                </form>
-            </section><!--contentSection-->
+                    <div class="form-group text-right mt-4">
+                        <button class="btn secondaryBtn" type="submit">Save</button>
+                        <a class="btn neutralBtn" href="{% url 'coupons' %}">Cancel</a>
+                    </div><!--form-group-->
+
+                </fieldset>
+            </form>
 
         {% else %}
         <!--New coupon-->
 
             <h1>Add Coupon</h1>
 
-            <section class="contentSection">
-                <form action="{% url 'coupon' %}" method="post">
-                    <fieldset>
-                        {% csrf_token %}
+            <form action="{% url 'coupon' %}" method="post">
+                <fieldset>
+                    {% csrf_token %}
+
+                    <section class="contentSection">
 
                         <div class="form-group">
                             <label>Code</label>
@@ -63,14 +66,15 @@
                             <input class="form-control" name="discount" type="number" min="0" required/>
                         </div><!--form-group-->
 
-                        <div class="form-group text-right mt-4">
-                            <button class="btn secondaryBtn" type="submit">Save</button>
-                            <a class="btn neutralBtn" href="{% url 'coupons' %}">Cancel</a>
-                        </div><!--form-group-->
+                    </section><!--contentSection-->
 
-                    </fieldset>
-                </form>
-            </section><!--contentSection-->
+                    <div class="form-group text-right mt-4">
+                        <button class="btn secondaryBtn" type="submit">Save</button>
+                        <a class="btn neutralBtn" href="{% url 'coupons' %}">Cancel</a>
+                    </div><!--form-group-->
+
+                </fieldset>
+            </form>
 
         {% endif %}
 
