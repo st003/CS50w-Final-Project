@@ -6,6 +6,22 @@
 
 {% block content %}
     <section class="page" data-page="shop">
+
         <h1>Shop</h1>
+
+        {% for product in products %}
+            <a class="shopItem" href="#">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <h2>{{ product.name }}</h2>
+                        <span class="mr-3">Item Code: {{ product.code }}</span>
+                    </div><!--col-sm-12 col-md-6-->
+                    <div class="col-sm-12 col-md-6 align-self-end text-right">
+                        <span>Price: {{ product.dollar_cost }}</span>
+                    </div><!--col-sm-12 col-md-6-->
+                </div><!--row-->
+            </a><!--shopItem-->
+        {% endfor %}
+        
     </section>
 {% endblock %}

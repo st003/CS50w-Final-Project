@@ -186,3 +186,26 @@ nav {
         color: $light_text;
     }
 }
+
+/* SHOP */
+
+.shopItem {
+    display: block;
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: $neutral_color;
+    text-decoration: none;
+    color: $dark_text;
+}
+
+.shopItem:hover {
+    background-color: $neutral_color_hover;
+    text-decoration: none;
+    color: $dark_text;
+}
+
+.shopItem:active {
+    background-color: $neutral_color_active;
+    text-decoration: none;
+    color: $dark_text;
+}

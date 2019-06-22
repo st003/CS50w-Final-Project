@@ -135,6 +135,11 @@ class User(AbstractBaseUser):
         for value, name in self.ACCESS_LEVEL_CHOICES:
             if self.access_level == value:
                 return name
+    
+    @property
+    def cart_size(self):
+        """Returns the number of items in the user cart."""
+        return 0
 
     # methods
     def __str__(self):

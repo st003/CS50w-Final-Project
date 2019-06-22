@@ -123,7 +123,9 @@ def register(request):
 # PURCHASER views
 @login_required
 def shop(request):
-    return render(request, 'purchasing/shop.html')
+    """Displays available products for sale."""
+    products = Product.objects.filter(active=True).all()
+    return render(request, 'purchasing/shop.html', {'products': products})
 
 
 @login_required
