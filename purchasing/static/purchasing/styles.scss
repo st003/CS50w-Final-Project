@@ -16,6 +16,7 @@ $light_text: white;
 $dark_text: #404040;
 
 
+
 /* BUTTONS */
 
 .secondaryBtn {
@@ -106,15 +107,9 @@ nav {
 
 /* CONTENT AREA */
 
-.page {
-
-    h1 {
-        margin-bottom: 0.5em;
-    }
-
-}
-
 .contentArea {
+    height: calc(100vh - 4em);
+    overflow-y: scroll;
     padding: 2em;
 }
 
@@ -124,8 +119,16 @@ nav {
     }
 }
 
+.page {
+
+    h1 {
+        margin-bottom: 0.5em;
+    }
+
+}
+
 .contentSection {
-    padding: 2em 2em 1em 2em;
+    padding: 1em;
     background-color: $neutral_background_color;
 }
 

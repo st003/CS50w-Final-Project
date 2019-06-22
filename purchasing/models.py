@@ -63,6 +63,12 @@ class User(AbstractBaseUser):
 
     objects = UserManager()
 
+    # for booleans in html select
+    BOOLEANS_AS_INTS = (
+        (True, 1),
+        (False, 0)
+    )
+
     # configure access level choices
     LICENCEE = 1
     PURCHASER = 2
@@ -80,7 +86,7 @@ class User(AbstractBaseUser):
         ADMINISTRATOR: 'products'
     }
 
-    # class attributes
+    # attributes
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=64)
     middle_name = models.CharField(max_length=64, null=True, blank=True)
@@ -120,6 +126,7 @@ class User(AbstractBaseUser):
     
     @property
     def default_home(self):
+        """The reverse lookup view name for this user's default home page."""
         return self.DEFAULT_HOME[self.access_level]
 
     @property
@@ -162,9 +169,16 @@ class User(AbstractBaseUser):
         try:
             if cls.objects.get(email=cls.objects.normalize_email(email)):
                 return True
-
         except cls.DoesNotExist:
             return False
+
+    @staticmethod
+    def compare_passwords(password, confirm_password):
+        """Compares passwords and returns password if they match."""
+        if password == confirm_password:
+            return password
+        else:
+            raise RuntimeError('Passwords do not match')
 
 
 # APP SPECIFIC MODELS

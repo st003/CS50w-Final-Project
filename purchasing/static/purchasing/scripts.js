@@ -5,24 +5,32 @@ document.addEventListener('DOMContentLoaded', () => {
     // main nav scripts
     if (document.querySelector('#mainNav')) {
 
-        // set mobile menu to be collaped onload 
+        const navCollapse = document.querySelector('#navCollapse');
+        const contentArea = document.querySelector('.contentArea');
+        
+        // set mobile optimizations onload 
         if (window.innerWidth <= MEDIUMBREAKPOINT) {
-            document.querySelector('#navCollapse').classList.remove('show');
+            navCollapse.classList.remove('show');
+            contentArea.style.height = 'auto';
         }
 
-        // close mobile menu or show deskop menu on window resize
+        // update mobile optimzations on window resize
         window.addEventListener('resize', () => {
             if (window.innerWidth > MEDIUMBREAKPOINT) {
-                document.querySelector('#navCollapse').classList.add('show');
+                navCollapse.classList.add('show');
+                contentArea.style.height = 'calc(100vh - 4em)';
+                contentArea.style.overflowY = 'scroll';
             } else if (window.innerWidth <= MEDIUMBREAKPOINT) {
-                document.querySelector('#navCollapse').classList.remove('show');
+                navCollapse.classList.remove('show');
+                contentArea.style.height = 'auto';
+                contentArea.style.overflowY = none;
             }
         });
 
         // side bar nav active styling
-        const contentArea = document.querySelector('.page');
+        const page = document.querySelector('.page');
         document.querySelectorAll('.sideBarLink').forEach( (link) => {
-            if (link.dataset.nav == contentArea.dataset.page)
+            if (link.dataset.nav == page.dataset.page)
                 link.classList.add('sideBarLinkActive');
         });
 

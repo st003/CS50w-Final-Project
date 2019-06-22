@@ -1,0 +1,434 @@
+{% extends 'purchasing/base.html' %}
+
+{% block title %}
+    User
+{% endblock %}
+
+{% block content %}
+    <section class="page" data-page="users">
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        
+        {% if existing_user %}
+        <!--existing user-->
+
+            <h1>{{ existing_user.get_full_name }}</h1>
+
+                <form action="{% url 'user' %}" method="post">
+                    <fieldset>
+                        {% csrf_token %}
+                        <input name="id" type="hidden" value="{{ existing_user.pk }}">
+
+                        <h2>Login Info</h2>
+
+                        <section class="contentSection">
+
+                            <div class="form-row">
+
+                                <div class="col-md-12 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input class="form-control" name="email" type="email" value="{{ existing_user.email }}" required/>
+                                    </div><!--form-group-->
+                                </div><!--col-md-12 col-lg-6-->
+
+                            </div><!--form-row-->
+
+                            <div class="form-row">
+
+                                <div class="col-md-12 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Password</label>
+                                        <input class="form-control" name="password" type="password"/>
+                                    </div><!--form-group-->
+                                </div><!--col-md-12 col-lg-6-->
+
+                                <div class="col-md-12 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Confirm Password</label>
+                                        <input class="form-control" name="confirmPassword" type="password"/>
+                                    </div><!--form-group-->
+                                </div><!--col-md-12 col-lg-6-->
+
+                            </div><!--form-row-->
+
+                        </section><!--contentSection-->
+
+                        <h2 class="mt-3">Name Info</h2>
+                        
+                        <section class="contentSection">
+
+                            <div class="form-row">
+
+                                <div class="col-md-12 col-lg-6">
+                                    <div class="form-group">
+                                        <label>First Name</label>
+                                        <input class="form-control" name="firstName" value="{{ existing_user.first_name }}" required/>
+                                    </div><!--form-group-->
+                                </div><!--col-md-12 col-lg-6-->
+
+                                <div class="col-md-12 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Last Name</label>
+                                        <input class="form-control" name="lastName" value="{{ existing_user.last_name }}" required/>
+                                    </div><!--form-group-->
+                                </div><!--col-md-12 col-lg-6-->
+
+                            </div><!--form-row-->
+
+                            <div class="form-row">
+
+                                <div class="col-md-12 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Middle Name</label>
+                                        <input class="form-control" name="middleName" value="{{ existing_user.middle_name }}"/>
+                                    </div><!--form-group-->
+                                </div><!--col-md-12 col-lg-6-->
+
+                                <div class="col-md-12 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Suffix</label>
+                                        <input class="form-control" name="suffixName" value="{{ existing_user.suffix_name }}"/>
+                                    </div><!--form-group-->
+                                </div><!--col-md-12 col-lg-6-->
+
+                            </div><!--form-row-->
+
+                        </section><!--contentSection-->
+
+                        <h2 class="mt-3">Address Info</h2>
+                        
+                        <section class="contentSection">
+
+                            <div class="form-row">
+
+                                <div class="col-md-12 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Address 1</label>
+                                        <input class="form-control" name="address1" value="{{ existing_user.address_1 }}"/>
+                                    </div><!--form-group-->
+                                </div><!--col-md-12 col-lg-6-->
+
+                                <div class="col-md-12 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Address 2</label>
+                                        <input class="form-control" name="address2" value="{{ existing_user.address_2 }}"/>
+                                    </div><!--form-group-->
+                                </div><!--col-md-12 col-lg-6-->
+
+                            </div><!--form-row-->
+
+                            <div class="form-row">
+
+                                <div class="col-md-12 col-lg-6">
+                                    <div class="form-group">
+                                        <label>City</label>
+                                        <input class="form-control" name="city" value="{{ existing_user.city }}"/>
+                                    </div><!--form-group-->
+                                </div><!--col-md-12 col-lg-6-->
+
+                                <div class="col-md-12 col-lg-6">
+                                    <div class="form-group">
+                                        <label>State</label>
+                                        <input class="form-control" name="state" value="{{ existing_user.state }}"/>
+                                    </div><!--form-group-->
+                                </div><!--col-md-12 col-lg-6-->
+
+                            </div><!--form-row-->
+
+                            <div class="form-row">
+
+                                <div class="col-md-12 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Zip / Postal Code</label>
+                                        <input class="form-control" name="postal" value="{{ existing_user.postal }}"/>
+                                    </div><!--form-group-->
+                                </div><!--col-md-12 col-lg-6-->
+
+                                <div class="col-md-12 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Country</label>
+                                        <input class="form-control" name="country" value="{{ existing_user.country }}"/>
+                                    </div><!--form-group-->
+                                </div><!--col-md-12 col-lg-6-->
+
+                            </div><!--form-row-->
+
+                        </section><!--contentSection-->
+
+                        <h2 class="mt-3">Settings</h2>
+
+                        <section class="contentSection">
+
+                            <div class="form-row">
+
+                                <div class="col-md-12 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Access Level</label>
+                                        <select class="form-control" name="accessLevel">
+                                            {% for value, name in existing_user.ACCESS_LEVEL_CHOICES %}
+                                                <option 
+                                                    {% if value == existing_user.access_level %}
+                                                        selected
+                                                    {% endif %}
+                                                value="{{ value }}">{{ name }}</option>
+                                            {% endfor %}
+                                        </select><!--form-control-->
+                                    </div><!--form-group-->
+                                </div><!--col-md-12 col-lg-6-->
+
+                                <div class="col-md-12 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Active</label>
+                                        <select class="form-control" name="isActive">
+                                            {% for boolean, int in existing_user.BOOLEANS_AS_INTS %}
+                                                <option 
+                                                    {% if boolean == existing_user.is_active %}
+                                                        selected
+                                                    {% endif %}
+                                                value="{{ int }}">{{ boolean }}</option>
+                                            {% endfor %}
+                                        </select><!--form-control-->
+                                    </div><!--form-group-->
+                                </div><!--col-md-12 col-lg-6-->
+
+                            </div><!--form-row-->
+
+                            <div class="form-row">
+
+                                <div class="col-md-12 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Group</label>
+                                        <select class="form-control" name="group">
+                                            {% for group in groups %}
+                                                <option 
+                                                    {% if existing_user.group == group %}
+                                                        selected
+                                                    {% endif %}
+                                                value="{{ group.pk }}">{{ group.name }}</option>
+                                            {% endfor %}
+                                        </select><!--form-control-->
+                                    </div><!--form-group-->
+                                </div><!--col-md-12 col-lg-6-->
+
+                            </div><!--form-row-->
+
+                        </section><!--contentSection-->
+
+                        <div class="form-group text-right mt-4">
+                            <button class="btn secondaryBtn" type="submit">Save</button>
+                            <a class="btn neutralBtn" href="{% url 'users' %}">Cancel</a>
+                        </div><!--form-group-->
+
+                    </fieldset>
+                </form>
+
+        {% else %}
+        <!--New user-->
+
+            <h1>Add User</h1>
+
+            <form action="{% url 'user' %}" method="post">
+                <fieldset>
+                    {% csrf_token %}
+
+                    <h2>Login Info</h2>
+
+                    <section class="contentSection">
+
+                        <div class="form-row">
+
+                            <div class="col-md-12 col-lg-6">
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input class="form-control" name="email" type="email" required/>
+                                </div><!--form-group-->
+                            </div><!--col-md-12 col-lg-6-->
+
+                        </div><!--form-row-->
+
+                        <div class="form-row">
+
+                            <div class="col-md-12 col-lg-6">
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    <input class="form-control" name="password" type="password" required/>
+                                </div><!--form-group-->
+                            </div><!--col-md-12 col-lg-6-->
+
+                            <div class="col-md-12 col-lg-6">
+                                <div class="form-group">
+                                    <label>Confirm Password</label>
+                                    <input class="form-control" name="confirmPassword" type="password" required/>
+                                </div><!--form-group-->
+                            </div><!--col-md-12 col-lg-6-->
+
+                        </div><!--form-row-->
+
+                    </section><!--contentSection-->
+
+                    <h2 class="mt-3">Name Info</h2>
+                    
+                    <section class="contentSection">
+
+                        <div class="form-row">
+
+                            <div class="col-md-12 col-lg-6">
+                                <div class="form-group">
+                                    <label>First Name</label>
+                                    <input class="form-control" name="firstName" required/>
+                                </div><!--form-group-->
+                            </div><!--col-md-12 col-lg-6-->
+
+                            <div class="col-md-12 col-lg-6">
+                                <div class="form-group">
+                                    <label>Last Name</label>
+                                    <input class="form-control" name="lastName" required/>
+                                </div><!--form-group-->
+                            </div><!--col-md-12 col-lg-6-->
+
+                        </div><!--form-row-->
+
+                        <div class="form-row">
+
+                            <div class="col-md-12 col-lg-6">
+                                <div class="form-group">
+                                    <label>Middle Name</label>
+                                    <input class="form-control" name="middleName"/>
+                                </div><!--form-group-->
+                            </div><!--col-md-12 col-lg-6-->
+
+                            <div class="col-md-12 col-lg-6">
+                                <div class="form-group">
+                                    <label>Suffix</label>
+                                    <input class="form-control" name="suffixName">
+                                </div><!--form-group-->
+                            </div><!--col-md-12 col-lg-6-->
+
+                        </div><!--form-row-->
+
+                    </section><!--contentSection-->
+
+                    <h2 class="mt-3">Address Info</h2>
+                    
+                    <section class="contentSection">
+
+                        <div class="form-row">
+
+                            <div class="col-md-12 col-lg-6">
+                                <div class="form-group">
+                                    <label>Address 1</label>
+                                    <input class="form-control" name="address1"/>
+                                </div><!--form-group-->
+                            </div><!--col-md-12 col-lg-6-->
+
+                            <div class="col-md-12 col-lg-6">
+                                <div class="form-group">
+                                    <label>Address 2</label>
+                                    <input class="form-control" name="address2"/>
+                                </div><!--form-group-->
+                            </div><!--col-md-12 col-lg-6-->
+
+                        </div><!--form-row-->
+
+                        <div class="form-row">
+
+                            <div class="col-md-12 col-lg-6">
+                                <div class="form-group">
+                                    <label>City</label>
+                                    <input class="form-control" name="city"/>
+                                </div><!--form-group-->
+                            </div><!--col-md-12 col-lg-6-->
+
+                            <div class="col-md-12 col-lg-6">
+                                <div class="form-group">
+                                    <label>State</label>
+                                    <input class="form-control" name="state"/>
+                                </div><!--form-group-->
+                            </div><!--col-md-12 col-lg-6-->
+
+                        </div><!--form-row-->
+
+                        <div class="form-row">
+
+                            <div class="col-md-12 col-lg-6">
+                                <div class="form-group">
+                                    <label>Zip / Postal Code</label>
+                                    <input class="form-control" name="postal"/>
+                                </div><!--form-group-->
+                            </div><!--col-md-12 col-lg-6-->
+
+                            <div class="col-md-12 col-lg-6">
+                                <div class="form-group">
+                                    <label>Country</label>
+                                    <input class="form-control" name="country"/>
+                                </div><!--form-group-->
+                            </div><!--col-md-12 col-lg-6-->
+
+                        </div><!--form-row-->
+
+                    </section><!--contentSection-->
+
+                    <h2 class="mt-3">Settings</h2>
+
+                    <section class="contentSection">
+
+                        <div class="form-row">
+
+                            <div class="col-md-12 col-lg-6">
+                                <div class="form-group">
+                                    <label>Access Level</label>
+                                    <select class="form-control" name="accessLevel">
+                                        {% for value, name in user.ACCESS_LEVEL_CHOICES %}
+                                            <option value="{{ value }}">{{ name }}</option>
+                                        {% endfor %}
+                                    </select><!--form-control-->
+                                </div><!--form-group-->
+                            </div><!--col-md-12 col-lg-6-->
+
+                            <div class="col-md-12 col-lg-6">
+                                <div class="form-group">
+                                    <label>Active</label>
+                                    <select class="form-control" name="isActive">
+                                        {% for boolean, int in user.BOOLEANS_AS_INTS %}
+                                            <option value="{{ int }}">{{ boolean }}</option>
+                                        {% endfor %}
+                                    </select><!--form-control-->
+                                </div><!--form-group-->
+                            </div><!--col-md-12 col-lg-6-->
+
+                        </div><!--form-row-->
+
+                        <div class="form-row">
+
+                            <div class="col-md-12 col-lg-6">
+                                <div class="form-group">
+                                    <label>Group</label>
+                                    <select class="form-control" name="group">
+                                        {% for group in groups %}
+                                            <option value="{{ group.pk }}">{{ group.name }}</option>
+                                        {% endfor %}
+                                    </select><!--form-control-->
+                                </div><!--form-group-->
+                            </div><!--col-md-12 col-lg-6-->
+
+                        </div><!--form-row-->
+
+                    </section><!--contentSection-->
+
+                    <div class="form-group text-right mt-4">
+                        <button class="btn secondaryBtn" type="submit">Save</button>
+                        <a class="btn neutralBtn" href="{% url 'users' %}">Cancel</a>
+                    </div><!--form-group-->
+
+                </fieldset>
+            </form>
+
+        {% endif %}
+
+    </section><!--page-->
+{% endblock %}

@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 
-from .models import Coupon, Product, User
+from .models import Coupon, Group, Product, User
 
 
 # PUBLIC VIEWS
@@ -85,10 +85,6 @@ def register(request):
             if not request.POST.get('lastName'):
                 raise RuntimeError('Last Name not provided')
             
-            # compare password inputs
-            if request.POST['password'] != request.POST['confirmPassword']:
-                raise RuntimeError('Passwords do not match')
-            
             # check if user already exists
             if User.is_email_taken(request.POST['email']):
                 raise RuntimeError('Email is already taken')
@@ -96,7 +92,10 @@ def register(request):
             # create the user
             User.objects.create_user(
                 email=request.POST['email'],
-                password=request.POST['password'],
+                password=User.compare_passwords(
+                    request.POST['password'],
+                    request.POST['confirmPassword']
+                ),
                 first_name=request.POST['firstName'],
                 last_name=request.POST['lastName'],
             )
@@ -213,7 +212,7 @@ def product(request, product_id=None):
 
                 new_product.save()
 
-                messages.success(request, 'Product Created')
+                messages.success(request, 'Product Created Successfully')
                 return redirect(reverse('product', kwargs={'product_id': new_product.pk}))
             
             except Exception as error:
@@ -285,7 +284,7 @@ def coupon(request, coupon_id=None):
 
                 new_coupon.save()
 
-                messages.success(request, 'Coupon Created')
+                messages.success(request, 'Coupon Created Successfully')
                 return redirect(reverse('coupon', kwargs={'coupon_id': new_coupon.pk}))
                 
             except Exception as error:
@@ -298,6 +297,135 @@ def users(request):
     """Displays a list of users."""
     users = User.objects.all()
     return render(request, 'purchasing/users.html', {'users': users})
+
+
+@login_required
+def user(request, user_id=None):
+    """Add or edit a user."""
+
+    if request.method == 'GET':
+
+        # existing user
+        if user_id:
+            context = {
+                'existing_user': get_object_or_404(User, pk=user_id),
+                'groups': Group.objects.all()
+            }
+            return render(request, 'purchasing/user.html', context)
+        # new user
+        else:
+            groups = Group.objects.all()
+            return render(request, 'purchasing/user.html', {'groups': groups})
+    
+    elif request.method == 'POST':
+
+        # existing user
+        if request.POST.get('id'):
+
+            try:
+
+                # required field validation
+                if not request.POST.get('email'):
+                    raise RuntimeError('email not provided')
+                if not request.POST.get('firstName'):
+                    raise RuntimeError('First name not provided')
+                if not request.POST.get('lastName'):
+                    raise RuntimeError('Last name not provided')
+                
+                existing_user = User.objects.get(pk=request.POST['id'])
+
+                # login info
+                existing_user.email = request.POST['email']
+
+                # update password if present
+                if request.POST.get('password') or request.POST.get('confirmPassword'):
+                    existing_user.email = User.compare_passwords(
+                        request.POST.get('password'),
+                        request.POST.get('confirmPassword')
+                    )
+
+                # name info
+                existing_user.first_name = request.POST['firstName']
+                existing_user.last_name = request.POST['lastName']
+                existing_user.middle_name = request.POST['middleName']
+                existing_user.suffix_name = request.POST['suffixName']
+
+                # address info
+                existing_user.address_1 = request.POST['address1']
+                existing_user.address_2 = request.POST['address2']
+                existing_user.city = request.POST['city']
+                existing_user.state = request.POST['state']
+                existing_user.postal = request.POST['postal']
+                existing_user.country = request.POST['country']
+
+                # settings
+                existing_user.access_level = request.POST['accessLevel']
+                existing_user.is_active = int(request.POST['isActive']) # converted to int b/c boolean
+                existing_user.group = Group.objects.get(pk=request.POST['group'])
+
+                existing_user.save()
+                messages.success(request, 'Changes Saved')
+                return redirect(reverse('user', kwargs={'user_id': existing_user.pk}))
+
+            except Exception as error:
+                messages.error(request, error)
+                return redirect(reverse('user', kwargs={'user_id': request.POST['id']}))
+        
+        # new user
+        else:
+
+            try:
+
+                # required field validation
+                if not request.POST.get('email'):
+                    raise RuntimeError('Email not provided')
+                if not request.POST.get('password'):
+                    raise RuntimeError('Password not provided')
+                if not request.POST.get('confirmPassword'):
+                    raise RuntimeError('Confirm Password not provided')
+                if not request.POST.get('firstName'):
+                    raise RuntimeError('First Name not provided')
+                if not request.POST.get('lastName'):
+                    raise RuntimeError('Last Name not provided')
+
+                # check if user already exists
+                if User.is_email_taken(request.POST['email']):
+                    raise RuntimeError('Email is already taken')
+
+                new_user = User.objects.create_user(
+                    email=request.POST['email'],
+                    password=User.compare_passwords(
+                        request.POST['password'],
+                        request.POST['confirmPassword']
+                    ),
+                    first_name = request.POST['firstName'],
+                    last_name = request.POST['lastName']
+                )
+
+                # name info
+                new_user.middle_name = request.POST['middleName']
+                new_user.suffix_name = request.POST['suffixName']
+
+                # address info
+                new_user.address_1 = request.POST['address1']
+                new_user.address_2 = request.POST['address2']
+                new_user.city = request.POST['city']
+                new_user.state = request.POST['state']
+                new_user.postal = request.POST['postal']
+                new_user.country = request.POST['country']
+
+                # settings
+                new_user.access_level = request.POST['accessLevel']
+                new_user.is_active = int(request.POST['isActive']) # converted to int b/c boolean
+                new_user.group = Group.objects.get(pk=request.POST['group'])
+
+                new_user.save()
+                messages.success(request, 'User Created Successfully')
+                return redirect(reverse('user', kwargs={'user_id': new_user.pk}))
+
+            except Exception as error:
+                messages.error(request, error)
+                return redirect(reverse('user'))
 
 
 @login_required
