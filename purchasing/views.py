@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 
-from .models import Coupon, Group, Product, User
+from .models import Coupon, Group, Product, User, Transaction
 
 
 # PUBLIC VIEWS
@@ -430,4 +430,6 @@ def user(request, user_id=None):
 
 @login_required
 def reports(request):
-    return render(request, 'purchasing/reports.html')
+    """Renders the reports page."""
+    transactions = Transaction.objects.all()
+    return render(request, 'purchasing/reports.html', {'transactions': transactions})
