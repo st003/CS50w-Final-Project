@@ -1,0 +1,36 @@
+{% extends 'purchasing/base.html' %}
+
+{% block title %}
+    Coupon
+{% endblock %}
+
+{% block content %}
+    <section class="page" data-page="shop">
+
+        <h1>{{ product.name }}</h1>
+
+        <section class="contentSection">
+            <p>
+                <span class="mr-2"><strong>Item Code: </strong>{{ product.code }}</span>
+                <span><strong>Price: </strong>{{ product.dollar_cost }}</span>
+            </p>
+            <span class="font-weight-bold">Description</span>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure 
+                dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non 
+                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+            <hr>
+            <form class="form-inline justify-content-end" action="" method="post">
+                <fieldset>
+                    {% csrf_token %}
+                    <input name="productID" type="hidden" value="{{ product.pk }}">
+                    <input class="form-control quantityInput" type="number" min="1" value="1">
+                    <button class="btn secondaryBtn" type="submit">Add to Cart</button>
+                </fieldset>
+            </form>
+        </section><!--contentSection-->
+
+    </section><!--page-->
+{% endblock %}

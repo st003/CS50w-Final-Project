@@ -129,6 +129,13 @@ def shop(request):
 
 
 @login_required
+def purchase_product(request, product_id):
+    """Displays the product page."""
+    product = get_object_or_404(Product, pk=product_id)
+    return render(request, 'purchasing/purchase_product.html', {'product': product})
+
+
+@login_required
 def user_license(request):
     return render(request, 'purchasing/user_license.html')
 
@@ -136,11 +143,6 @@ def user_license(request):
 @login_required
 def purchase_history(request):
     return render(request, 'purchasing/purchase_history.html')
-
-
-@login_required
-def account_settings(request):
-    return render(request, 'purchasing/account_settings.html')
 
 
 # ADMINISTRATOR views
@@ -152,7 +154,7 @@ def products(request):
 
 
 @login_required
-def product(request, product_id=None):
+def manage_product(request, product_id=None):
     """Adds or Edits a product."""
 
     if request.method == 'GET':
@@ -160,10 +162,10 @@ def product(request, product_id=None):
         # existing product
         if product_id:
             product = get_object_or_404(Product, pk=product_id)
-            return render(request, 'purchasing/product.html', {'product': product})
+            return render(request, 'purchasing/manage_product.html', {'product': product})
         # new product
         else:
-            return render(request, 'purchasing/product.html')
+            return render(request, 'purchasing/manage_product.html')
     
     elif request.method == 'POST':
 
@@ -187,11 +189,11 @@ def product(request, product_id=None):
                 existing_product.save()
 
                 messages.success(request, 'Changes Saved')
-                return redirect(reverse('product', kwargs={'product_id': existing_product.pk}))
+                return redirect(reverse('manage_product', kwargs={'product_id': existing_product.pk}))
             
             except Exception as error:
                 messages.error(request, error)
-                return redirect(reverse('product', kwargs={'product_id': request.POST['id']}))
+                return redirect(reverse('manage_product', kwargs={'product_id': request.POST['id']}))
             
         # new product
         else:
@@ -215,11 +217,11 @@ def product(request, product_id=None):
                 new_product.save()
 
                 messages.success(request, 'Product Created Successfully')
-                return redirect(reverse('product', kwargs={'product_id': new_product.pk}))
+                return redirect(reverse('manage_product', kwargs={'product_id': new_product.pk}))
             
             except Exception as error:
                 messages.error(request, error)
-                return redirect(reverse('product'))
+                return redirect(reverse('manage_product'))
 
 
 @login_required

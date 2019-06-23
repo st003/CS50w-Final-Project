@@ -10,7 +10,7 @@
         <h1>Shop</h1>
 
         {% for product in products %}
-            <a class="shopItem" href="#">
+            <a class="shopItem" href="{% url 'purchase_product' product_id=product.pk %}">
                 <div class="row">
                     <div class="col-sm-12 col-md-6">
                         <h2>{{ product.name }}</h2>
