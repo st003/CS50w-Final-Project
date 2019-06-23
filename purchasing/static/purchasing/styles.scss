@@ -56,13 +56,22 @@ $dark_text: #404040;
 }
 
 // these are modifications to a Bootstrap classes
-.nav-link:hover {
+.nav-link {
     cursor: pointer;
+    color: $light_text;
+    text-decoration: none;
+}
+
+.nav-link:hover {
     background-color: $primary_color_hover;
+    color: $light_text;
+    text-decoration: none;
 }
 
 .nav-link:active {
     background-color: $primary_color_active;
+    color: $light_text;
+    text-decoration: none;
 }
 
 .dropdown-menu {

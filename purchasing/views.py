@@ -136,6 +136,12 @@ def purchase_product(request, product_id):
 
 
 @login_required
+def cart(request, user_id):
+    """Displays the user's shopping cart."""
+    return render(request, 'purchasing/cart.html')
+
+
+@login_required
 def user_license(request):
     return render(request, 'purchasing/user_license.html')
 
