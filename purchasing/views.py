@@ -140,7 +140,10 @@ def purchase_product(request, product_id):
 def add_to_cart(request):
     """Adds product to the user's shopping cart."""
 
-    if request.method == 'POST':
+    if request.method == 'GET':
+        raise Http404()
+
+    elif request.method == 'POST':
 
         try:
 
@@ -148,6 +151,7 @@ def add_to_cart(request):
             if not request.POST.get('quantity'):
                 raise RuntimeError('Quantity not provided')
             
+            # force a quantity of at least 1
             if int(request.POST['quantity']) < 1:
                 raise ValueError('You must have a quantity of at least 1')
 
@@ -170,6 +174,20 @@ def cart(request):
     """Displays the user's shopping cart."""
     transaction = request.user.get_open_transaction()
     return render(request, 'purchasing/cart.html', {'transaction': transaction})
+
+
+@login_required
+def checkout(request):
+    """Confirms a purchase and closes a transaction."""
+
+    if request.method == 'GET':
+        raise Http404()
+
+    elif request.method == 'POST':
+
+        transaction = request.user.get_open_transaction()
+        transaction.set_paid()
+        return render(request, 'purchasing/confirm.html')
 
 
 @login_required

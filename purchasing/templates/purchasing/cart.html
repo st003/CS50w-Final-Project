@@ -22,29 +22,36 @@
             </div><!--col-sm-12-->
         </div><!--row-->
 
-        {% for product, quantity, subtotal in transaction.subtotal_by_product %}
-            <section class="contentSection mb-3">
-                <h3>{{ product.name }}</h3>
-                <div class="row">
-                    <div class="col-sm-12 col-md-6">
-                        <span class="font-weight-bold">Item Code: </span>
-                        <span class="mr-2">{{ product.code }}</span>
-                        <span class="font-weight-bold">Quantity: </span>
-                        <span>{{ quantity }}</span>
-                    </div><!--col-sm-12-->
-                    <div class="col-sm-12 col-md-6 text-right">
-                        <span class="font-weight-bold">Subtotal: </span>
-                        <span>{{ subtotal }}</span>
-                    </div><!--col-sm-12-->
-                </div><!--row-->
-            </section><!--contentSection-->
-        {% endfor %}
+        {% if transaction.subtotal_by_product %}
+            {% for product, quantity, subtotal in transaction.subtotal_by_product %}
+                <section class="contentSection mb-3">
+                    <h3>{{ product.name }}</h3>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <span class="font-weight-bold">Item Code: </span>
+                            <span class="mr-2">{{ product.code }}</span>
+                            <span class="font-weight-bold">Quantity: </span>
+                            <span>{{ quantity }}</span>
+                        </div><!--col-sm-12-->
+                        <div class="col-sm-12 col-md-6 text-right">
+                            <span class="font-weight-bold">Subtotal: </span>
+                            <span>{{ subtotal }}</span>
+                        </div><!--col-sm-12-->
+                    </div><!--row-->
+                </section><!--contentSection-->
+            {% endfor %}
 
-        <div class="text-right">
-            <span class="font-weight-bold">Grand Total: </span>
-            <span class="mr-3">{{ transaction.grand_total_dollar_cost }}</span>
-            <a class="btn secondaryBtn" href="#">Checkout</a>
-        </div>
-
+            <form class="form-inline justify-content-end" action="{% url 'checkout' %}" method="post">
+                <fieldset>
+                    {% csrf_token %}
+                    <span class="font-weight-bold">Grand Total: </span>
+                    <span class="mr-3">{{ transaction.grand_total_dollar_cost }}</span>
+                    <button class="btn secondaryBtn" type="submit">Checkout</button>
+                </fieldset>
+            </form>
+        {% else %}
+            <p>There is nothing in your cart.</p>
+        {% endif %}
+        
     </section><!--page-->
 {% endblock %}

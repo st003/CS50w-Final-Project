@@ -140,7 +140,7 @@ class User(AbstractBaseUser):
     def cart_size(self):
         """Returns the number of items in the user cart."""
         current_transaction = self.get_open_transaction()
-        return len(current_transaction.licenses.all())
+        return current_transaction.licenses.count()
 
     # methods
     def __str__(self):
@@ -311,10 +311,16 @@ class Transaction(models.Model):
     @property
     def grand_total_dollar_cost(self):
         """Returns the grand total for this transaction in dollars."""
+
         sum = self.licenses.aggregate(
             models.Sum('price_at_purchase')
         )['price_at_purchase__sum']
-        grand_total = f'${round(Decimal((sum / 100)), 2)}'
+
+        if sum is None:
+            grand_total = '$0.00'
+        else:
+            grand_total = f'${round(Decimal((sum / 100)), 2)}'
+
         return grand_total
 
     @property
@@ -363,19 +369,19 @@ class Transaction(models.Model):
     
     def set_pending(self):
         """Set the status to pending."""
-        self.status = PENDING
+        self.status = self.PENDING
         self.date = datetime.now()
         self.save()
     
     def set_paid(self):
         """Set the status to paid."""
-        self.status = PAID
+        self.status = self.PAID
         self.date = datetime.now()
         self.save()
     
     def set_declined(self):
         """Set the status to declined."""
-        self.status = DECLINED
+        self.status = self.DECLINED
         self.date = datetime.now()
         self.save()
 
