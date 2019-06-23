@@ -29,7 +29,7 @@
 				<ul class="navbar-nav ml-auto">
 					{% if user.access_level == user.PURCHASER %}
 						<li class="nav-item">
-							<a class="nav-link" href="{% url 'cart' user_id=user.pk %}">My Cart ({{ user.cart_size }})</a>
+							<a class="nav-link" href="{% url 'cart' %}">My Cart ({{ user.cart_size }})</a>
 						</li><!--nav-item-->
 					{% endif %}
 					<li class="nav-item dropdown ml-2">

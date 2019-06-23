@@ -1,17 +1,50 @@
 {% extends 'purchasing/base.html' %}
 
 {% block title %}
-    Coupon
+    Shopping Cart
 {% endblock %}
 
 {% block content %}
     <section class="page" data-page="cart">
 
-        <h1>My Cart ({{ user.cart_size }})</h1>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
 
-        <section class="contentSection">
-            
-        </section><!--contentSection-->
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <h1>My Cart ({{ user.cart_size }})</h1>
+            </div><!--col-sm-12-->
+            <div class="col-sm-12 col-md-6 text-right">
+                <h2>Grand Total: {{ transaction.grand_total_dollar_cost }}</h2>
+            </div><!--col-sm-12-->
+        </div><!--row-->
+
+        {% for product, quantity, subtotal in transaction.subtotal_by_product %}
+            <section class="contentSection mb-3">
+                <h3>{{ product.name }}</h3>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <span class="font-weight-bold">Item Code: </span>
+                        <span class="mr-2">{{ product.code }}</span>
+                        <span class="font-weight-bold">Quantity: </span>
+                        <span>{{ quantity }}</span>
+                    </div><!--col-sm-12-->
+                    <div class="col-sm-12 col-md-6 text-right">
+                        <span class="font-weight-bold">Subtotal: </span>
+                        <span>{{ subtotal }}</span>
+                    </div><!--col-sm-12-->
+                </div><!--row-->
+            </section><!--contentSection-->
+        {% endfor %}
+
+        <div class="text-right">
+            <span class="font-weight-bold">Grand Total: </span>
+            <span class="mr-3">{{ transaction.grand_total_dollar_cost }}</span>
+            <a class="btn secondaryBtn" href="#">Checkout</a>
+        </div>
 
     </section><!--page-->
 {% endblock %}

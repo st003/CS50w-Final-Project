@@ -7,7 +7,8 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('cart/<int:user_id>', views.cart, name='cart'),
+    path('add_to_cart/', views.add_to_cart, name='add_to_cart'),
+    path('cart/', views.cart, name='cart'),
     path('coupon/', views.coupon, name='coupon'),
     path('coupon/<int:coupon_id>', views.coupon, name='coupon'),
     path('coupons/', views.coupons, name='coupons'),

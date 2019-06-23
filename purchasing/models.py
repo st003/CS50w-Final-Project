@@ -139,7 +139,8 @@ class User(AbstractBaseUser):
     @property
     def cart_size(self):
         """Returns the number of items in the user cart."""
-        return 0
+        current_transaction = self.get_open_transaction()
+        return len(current_transaction.licenses.all())
 
     # methods
     def __str__(self):
@@ -167,6 +168,23 @@ class User(AbstractBaseUser):
     def has_module_perms(self, app_label):
         """Checks if the user has permission to view the app."""
         return True
+
+    def get_open_transaction(self):
+        """
+        Returns the current open transaction for this user. Creates a new
+        trascation if none are present.
+        """
+        transaction = Transaction.objects.filter(
+            user=self,
+            status=Transaction.UNPAID
+        ).first()
+
+        if transaction is None:
+            transaction = Transaction(user=self)
+            transaction.save()
+
+        return transaction
+
     
     @classmethod
     def is_email_taken(cls, email):
@@ -286,18 +304,62 @@ class Transaction(models.Model):
     @property
     def grand_total(self):
         """Returns the grand total for this transaction."""
-        grand_total = 0
-        for license in self.licenses.all():
-            grand_total += license.price_at_purchase
+        return self.licenses.aggregate(
+            models.Sum('price_at_purchase')
+        )['price_at_purchase__sum']
+    
+    @property
+    def grand_total_dollar_cost(self):
+        """Returns the grand total for this transaction in dollars."""
+        sum = self.licenses.aggregate(
+            models.Sum('price_at_purchase')
+        )['price_at_purchase__sum']
+        grand_total = f'${round(Decimal((sum / 100)), 2)}'
         return grand_total
+
+    @property
+    def subtotal_by_product(self):
+        """Returns a list of licenses and their quantities by product."""
+
+        # seperate licenses into "product groups"
+        product_set = set([license.product for license in self.licenses.all()])
+        
+        # calculate quanity and subtotal for each product group
+        product_groups = []
+        for product in product_set:
+
+            sum = self.licenses.filter(product=product).aggregate(
+                models.Sum('price_at_purchase')
+            )['price_at_purchase__sum']
+            
+            subtotal = f'${round(Decimal((sum / 100)), 2)}'
+
+            product_group = (
+                product,
+                self.licenses.filter(product=product).count(),
+                subtotal
+            )
+            product_groups.append(product_group)
+
+        return product_groups
 
     def __str__(self):
         """String method for class."""
-        return self.id
+        return str(self.id)
     
     def __repr__(self):
         """Representation method for class."""
         return f'Transaction(id={self.id}, user={self.user.id})'
+
+    def add_licenses(self, product, quantity):
+        """Adds licenses to this transaction."""
+        for i in range(quantity):
+            licence = License(
+                transaction=self,
+                product=product,
+                price_at_purchase=product.cost
+            )
+            licence.save()
     
     def set_pending(self):
         """Set the status to pending."""
@@ -346,7 +408,7 @@ class License(models.Model):
 
     def __str__(self):
         """String method for class."""
-        return self.id
+        return str(self.id)
     
     def __repr__(self):
         """Representation method for class."""

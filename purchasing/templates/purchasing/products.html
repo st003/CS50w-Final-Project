@@ -12,7 +12,7 @@
                 <h1>Products</h1>
             </div><!--col-->
             <div class="col text-right">
-                <a class="btn secondaryBtn" href="{% url 'product' %}">New Product</a>
+                <a class="btn secondaryBtn" href="{% url 'manage_product' %}">New Product</a>
             </div><!--col-->
         </div><!--row-->
 
@@ -28,7 +28,7 @@
                 {% for product in products %}
                     <tr>
                         <td>
-                            <a href="{% url 'product' product_id=product.pk %}">{{ product.name }}</a>
+                            <a href="{% url 'manage_product' product_id=product.pk %}">{{ product.name }}</a>
                         </td>
                         <td>{{ product.code }}</td>
                         <td>{{ product.dollar_cost }}</td>

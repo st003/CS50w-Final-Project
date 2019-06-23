@@ -3,6 +3,7 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 
 from .models import Coupon, Group, Product, User, Transaction
@@ -136,9 +137,39 @@ def purchase_product(request, product_id):
 
 
 @login_required
-def cart(request, user_id):
+def add_to_cart(request):
+    """Adds product to the user's shopping cart."""
+
+    if request.method == 'POST':
+
+        try:
+
+            # required field validation
+            if not request.POST.get('quantity'):
+                raise RuntimeError('Quantity not provided')
+            
+            if int(request.POST['quantity']) < 1:
+                raise ValueError('You must have a quantity of at least 1')
+
+            transaction = request.user.get_open_transaction()
+            transaction.add_licenses(
+                product=get_object_or_404(Product, pk=request.POST['productID']),
+                quantity=int(request.POST['quantity'])
+            )
+
+            messages.success(request, 'Item(s) added to cart')
+            return redirect(reverse('cart'))
+        
+        except Exception as error:
+            messages.error(request, error)
+            return redirect(reverse('cart'))
+
+
+@login_required
+def cart(request):
     """Displays the user's shopping cart."""
-    return render(request, 'purchasing/cart.html')
+    transaction = request.user.get_open_transaction()
+    return render(request, 'purchasing/cart.html', {'transaction': transaction})
 
 
 @login_required

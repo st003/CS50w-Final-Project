@@ -22,11 +22,11 @@
                 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
             </p>
             <hr>
-            <form class="form-inline justify-content-end" action="" method="post">
+            <form class="form-inline justify-content-end" action="{% url 'add_to_cart' %}" method="post">
                 <fieldset>
                     {% csrf_token %}
                     <input name="productID" type="hidden" value="{{ product.pk }}">
-                    <input class="form-control quantityInput" type="number" min="1" value="1">
+                    <input class="form-control quantityInput" name="quantity" type="number" min="1" value="1">
                     <button class="btn secondaryBtn" type="submit">Add to Cart</button>
                 </fieldset>
             </form>
