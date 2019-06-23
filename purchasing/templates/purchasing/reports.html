@@ -24,9 +24,9 @@
                     <tr>
                         <td>{{ transaction.date }}</td>
                         <td>{{ transaction.user.get_full_name }}</td>
-                        <td>{{ transaction.grand_total }}</td>
+                        <td>{{ transaction.grand_total_dollar_cost }}</td>
                         <td>{{ transaction.type }}</td>
-                        <td>{{ transaction.status }}</td>
+                        <td>{{ transaction.status_by_name }}</td>
                     </tr>
                 {% endfor %}
             </tbody>

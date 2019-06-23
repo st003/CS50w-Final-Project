@@ -197,7 +197,14 @@ def user_license(request):
 
 @login_required
 def purchase_history(request):
-    return render(request, 'purchasing/purchase_history.html')
+    """Displays the purchase history for the curernt user."""
+
+    transactions = Transaction.objects.filter(
+        user=request.user,
+        status=Transaction.PAID
+    )
+
+    return render(request, 'purchasing/purchase_history.html', {'transactions': transactions})
 
 
 # ADMINISTRATOR views

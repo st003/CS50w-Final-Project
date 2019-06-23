@@ -322,6 +322,13 @@ class Transaction(models.Model):
             grand_total = f'${round(Decimal((sum / 100)), 2)}'
 
         return grand_total
+    
+    @property
+    def status_by_name(self):
+        """Returns the status by it's name."""
+        for value, name in self.STATUS_CHOICES:
+            if self.status == value:
+                return name
 
     @property
     def subtotal_by_product(self):
