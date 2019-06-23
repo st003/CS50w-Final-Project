@@ -47,6 +47,7 @@ def login_view(request):
                 login(request, user)
                 return redirect(reverse(user.default_home))
             else:
+                messages.error(request, 'Email and/or password are incorrect')
                 return redirect(reverse('login'))
         
         except Exception as error:
@@ -121,7 +122,7 @@ def register(request):
 
 # AUTHENTICATED VIEWS
 
-# PURCHASER views
+# PURCHASER only views
 @login_required
 def shop(request):
     """Displays available products for sale."""
@@ -191,11 +192,6 @@ def checkout(request):
 
 
 @login_required
-def user_license(request):
-    return render(request, 'purchasing/user_license.html')
-
-
-@login_required
 def purchase_history(request):
     """Displays the purchase history for the curernt user."""
 
@@ -207,7 +203,7 @@ def purchase_history(request):
     return render(request, 'purchasing/purchase_history.html', {'transactions': transactions})
 
 
-# ADMINISTRATOR views
+# ADMINISTRATOR only views
 @login_required
 def products(request):
     """Displays the products page."""
@@ -356,15 +352,29 @@ def coupon(request, coupon_id=None):
             except Exception as error:
                 messages.error(request, error)
                 return redirect(reverse('coupon'))
-        
+
+
+@login_required
+def reports(request):
+    """Renders the reports page."""
+    transactions = Transaction.objects.all()
+    return render(request, 'purchasing/reports.html', {'transactions': transactions})
+
 
 @login_required
 def users(request):
-    """Displays a list of users."""
-    users = User.objects.all()
-    return render(request, 'purchasing/users.html', {'users': users})
+    """Displays a list of users based on access level permissions."""
+
+    if request.user.access_level == User.PURCHASER:
+        users = User.objects.filter(group=request.user.group).all()
+        return render(request, 'purchasing/users.html', {'users': users})
+
+    elif request.user.access_level == User.ADMINISTRATOR:
+        users = User.objects.all()
+        return render(request, 'purchasing/users.html', {'users': users})
 
 
+# Combined access level views
 @login_required
 def user(request, user_id=None):
     """Add or edit a user."""
@@ -492,10 +502,3 @@ def user(request, user_id=None):
             except Exception as error:
                 messages.error(request, error)
                 return redirect(reverse('user'))
-
-
-@login_required
-def reports(request):
-    """Renders the reports page."""
-    transactions = Transaction.objects.all()
-    return render(request, 'purchasing/reports.html', {'transactions': transactions})

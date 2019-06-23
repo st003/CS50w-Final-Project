@@ -25,6 +25,5 @@ urlpatterns = [
     path('shop/', views.shop, name='shop'),
     path('user/', views.user, name='user'),
     path('user/<int:user_id>', views.user, name='user'),
-    path('user_license/', views.user_license, name='user_license'),
     path('users/', views.users, name='users')
 ]
