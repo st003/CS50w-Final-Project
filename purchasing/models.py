@@ -168,6 +168,20 @@ class User(AbstractBaseUser):
     def has_module_perms(self, app_label):
         """Checks if the user has permission to view the app."""
         return True
+    
+    def assign_licenses_by_product_ids(self, product_ids):
+        """Assign user an available license by product."""
+        for id in product_ids:
+            product = Product.objects.get(pk=int(id))
+
+            # check if user already has license by this product
+            if not self.licenses.filter(product=product).first():
+
+                # get an unassigned licence for this product from user's group
+                license = self.group.licenses.filter(product=product, user=None).first()
+                if license:
+                    license.user = self
+                    license.save()
 
     def get_open_transaction(self):
         """
@@ -208,6 +222,26 @@ class User(AbstractBaseUser):
 class Group(models.Model):
     """Class for grouping like users together."""
     name = models.CharField(max_length=128, unique=True)
+
+    @property
+    def license_availability(self):
+        """Returns available licenses by product group."""
+
+        # seperate licenses into "product groups"
+        product_set = set([license.product for license in self.licenses.all()])
+
+        # calculate the availability of licenses by product group
+        product_groups = []
+        for product in product_set:
+            product_group = {
+                'product': product,
+                'unassigned': self.licenses.filter(product=product, user=None).count(),
+                'total': self.licenses.filter(product=product).count()
+            }
+            product_groups.append(product_group)
+
+        return product_groups
+
 
     def __str__(self):
         """String method for class."""
@@ -408,10 +442,16 @@ class License(models.Model):
         related_name='licenses'
     )
 
+    group = models.ForeignKey(
+        'Group',
+        null=True,
+        on_delete=models.DO_NOTHING,
+        related_name='licenses'
+    )
+
     user = models.ForeignKey(
         'User',
         null=True,
-        blank=True,
         on_delete=models.DO_NOTHING,
         related_name='licenses'
     )

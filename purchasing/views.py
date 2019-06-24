@@ -193,7 +193,7 @@ def checkout(request):
 
 @login_required
 def purchase_history(request):
-    """Displays the purchase history for the curernt user."""
+    """Displays the purchase history for the user's group."""
 
     transactions = Transaction.objects.filter(
         user=request.user,
@@ -436,8 +436,12 @@ def user(request, user_id=None):
 
                 # settings
                 existing_user.access_level = request.POST['accessLevel']
-                existing_user.is_active = int(request.POST['isActive']) # converted to int b/c boolean
+                if request.POST.get('isActive'):
+                    existing_user.is_active = int(request.POST['isActive']) # converted to int b/c boolean
                 existing_user.group = Group.objects.get(pk=request.POST['group'])
+
+                # licenses
+                existing_user.assign_licenses_by_product_ids(request.POST.getlist('license'))
 
                 existing_user.save()
                 messages.success(request, 'Changes Saved')

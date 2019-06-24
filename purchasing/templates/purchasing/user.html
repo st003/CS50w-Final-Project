@@ -229,6 +229,43 @@
 
                         </section><!--contentSection-->
 
+                        {% if existing_user.access_level < existing_user.ADMINISTRATOR %}
+
+                            <h2 class="mt-3">Product Licenses</h2>
+
+                            <section class="contentSection">
+
+                                <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Product</th>
+                                                <th>In Use</th>
+                                                <th>Assign</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for product_group in existing_user.group.license_availability %}
+                                                <tr>
+                                                    <td>{{ product_group.product }}</td>
+                                                    <td>{{ product_group.unassigned }} / {{ product_group.total }}</td>
+                                                    <td>
+                                                        <input name="license" type="checkbox"
+                                                            {% for license in existing_user.licenses.all %}
+                                                                {% if license.product.pk == product_group.product.pk %}
+                                                                    checked
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        value="{{ product_group.product.pk }}">
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table><!--table-->
+
+                            </section><!--contentSection-->
+                        
+                        {% endif %}
+
                         <div class="form-group text-right mt-4">
                             <button class="btn secondaryBtn" type="submit">Save</button>
                             <a class="btn neutralBtn" href="{% url 'users' %}">Cancel</a>
