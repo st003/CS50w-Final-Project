@@ -196,6 +196,49 @@ nav {
     }
 }
 
+
+/* INDEX */
+
+.homePage {
+    height: 100vh;
+    background-image: url("./images/rice.jpg");
+}
+
+.homeLogo {
+    color: $light_text;
+}
+
+.homeLoginBtn {
+    border: solid 1px $light_text;
+    color: $light_text;
+}
+
+.homeLoginBtn:hover {
+    background-color: $secondary_color;
+    color: $light_text;
+}
+
+.homePageItem {
+    display: block;
+    opacity: 0.9;
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: $primary_color;
+    text-decoration: none;
+    color: $light_text;
+}
+
+.homePageItem:hover {
+    background-color: $primary_color_hover;
+    text-decoration: none;
+    color: $light_text;
+}
+
+.homePageItem:active {
+    background-color: $primary_color_active;
+}
+
+
 /* SHOP */
 
 .shopItem {

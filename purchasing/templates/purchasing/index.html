@@ -1,10 +1,48 @@
 {% extends 'purchasing/base.html' %}
 
 {% block title %}
-    Index
+    Company Shopping Cart
 {% endblock %}
 
 {% block public %}
-    <a href="{% url 'login' %}">Login</a>
-    <p>List of Products</p>
+<div class="homePage">
+
+    <header class="navbar navbar-expand p-4">
+        <div class="nabar-brand homeLogo">Merchant Logo</div>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="btn homeLoginBtn" href="{% url 'login' %}">Log in</a>
+            </li><!--nav-item-->
+        </ul><!--navbar-nav-->
+    </header><!--navbar-->
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                {% for product in products %}
+                    <a class="homePageItem" href="{% url 'login' %}">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6">
+                                <h2>{{ product.name }}</h2>
+                            </div><!--col-sm-12 col-md-6-->
+                            <div class="col-sm-12 col-md-6 align-self-center text-right">
+                                <span>Price: {{ product.dollar_cost }}</span>
+                            </div><!--col-sm-12 col-md-6-->
+                        </div><!--row-->
+                    </a><!--shopItem-->
+                {% endfor %}
+            </div><!--row-->
+        </div><!--col-->
+
+        <footer class="fixed-bottom text-center publicSumbitText">
+            <p>
+                Copyright &copy;
+                <script>document.write(new Date().getFullYear())</script>
+                st003
+            </p>
+        </footer><!--publicSumbitText-->
+    
+    </div><!--container-->
+
+</div><!--homePage-->
 {% endblock %}

@@ -17,7 +17,7 @@
 
             <h1>{{ product.name }}</h1>
 
-            <form action="{% url 'product' %}" method="post">
+            <form action="{% url 'manage_product' %}" method="post">
                 <fieldset>
                     {% csrf_token %}
                     <input name="id" type="hidden" value="{{ product.pk }}">
@@ -53,7 +53,7 @@
 
             <h1>Add Product</h1>
 
-            <form action="{% url 'product' %}" method="post">
+            <form action="{% url 'manage_product' %}" method="post">
                 <fieldset>
                     {% csrf_token %}
 

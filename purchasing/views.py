@@ -12,8 +12,13 @@ from .models import Coupon, Group, Product, User, Transaction
 # PUBLIC VIEWS
 
 def index(request):
-    """Index view. There's nothing here."""
-    return render(request, 'purchasing/index.html')
+    """Returns the home page."""
+
+    if request.user.is_authenticated:
+        return redirect(reverse(request.user.default_home))
+    else:
+        products = Product.objects.all()
+        return render(request, 'purchasing/index.html', {'products': products})
 
 
 # login, logout, and registration views
@@ -58,7 +63,7 @@ def login_view(request):
 def logout_view(request):
     """Logs out the current user."""
     logout(request)
-    return redirect(reverse('login'))
+    return redirect(reverse('index'))
 
 
 def register(request):
