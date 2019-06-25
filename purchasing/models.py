@@ -452,6 +452,7 @@ class License(models.Model):
     user = models.ForeignKey(
         'User',
         null=True,
+        blank=True,
         on_delete=models.DO_NOTHING,
         related_name='licenses'
     )
